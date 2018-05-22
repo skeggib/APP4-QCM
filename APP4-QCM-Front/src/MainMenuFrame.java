@@ -39,19 +39,23 @@ public class MainMenuFrame extends JDialog {
 	}
 
 	void initializeCreate() {
+		JDialog tmp = this;
 		btnCreate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				//SessionCreationFrame.show(tmp);
 			}
 		});
 	}
 
 	void initializeStart() {
+		JDialog tmp = this;
 		btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				String sessionId = "GET FROM SERVER";
+				ConnexionFrame.show(tmp, sessionId);
+				//SessionFrame.show(tmp, sessionId);
 			}
 		});
 	}
@@ -61,8 +65,8 @@ public class MainMenuFrame extends JDialog {
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ConnexionFrame connexionFrame = new ConnexionFrame(tmp);
-				connexionFrame.setVisible(true);
+				String sessionId = ConnexionFrame.ask(tmp);
+				//WaitQuestionFrame.show(sessionId);
 			}
 		});
 	}

@@ -11,9 +11,14 @@ public class ConnexionFrame extends JDialog {
 		this.setSize(300, 480);
 	}
 	
-	// String session = ConnexionFrame.showDialog();
-	public static String show(JDialog dialog) {
-		ConnexionFrame connexion = new ConnexionFrame(dialog);
-		return connexion.txtSession.getText();
+	// show connexion identifier to share
+	public static void show(JDialog dialog, String connexion) {
+		// TODO
+	}
+	
+	// ask connexion identifier to join
+	public static String ask(JDialog dialog) {
+		// TODO
+		return "";
 	}
 }
