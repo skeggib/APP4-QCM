@@ -12,5 +12,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/APP4-QCM-Back/libs/ormlite-jdbc-5.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/delic/Downloads/xstream-1.4.10.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
