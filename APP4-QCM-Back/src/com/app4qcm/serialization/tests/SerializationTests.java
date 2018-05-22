@@ -63,5 +63,36 @@ public class SerializationTests {
 		result=(Question) XML_Tools.decodeFromFile("test.xml");
 		assertEquals(1,result.getId_q());
 	}
+	
+	@Test
+	public void test_decode_id_string_version() {
+		Question ques=new Question();
+		ques.setId_q(1);
+		String a;
+		a=XML_Tools.encodeToString(ques);
+		System.out.println(a);
+		Question result;
+		result=(Question) XML_Tools.decodeFromString(a);
+		assertEquals(1,result.getId_q());
+	}
+	
+	@Test
+	public void test_decode_decode_reponse_string_version() {
+		Question ques=new Question();
+		ques.setRep1("oui");
+		ques.setRep2("non");
+		ques.setRep3("pe");
+		ques.setRep4("presque");
+		String a;
+		a=XML_Tools.encodeToString(ques);
+		System.out.println(a);
+		Question result;
+		result=(Question) XML_Tools.decodeFromString(a);
+		assertEquals("oui",result.getRep1());
+		assertEquals("non",result.getRep2());
+		assertEquals("pe",result.getRep3());
+		assertEquals("presque",result.getRep4());
+	}
+	
 
 }
