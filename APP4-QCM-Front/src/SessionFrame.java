@@ -1,6 +1,6 @@
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 // show results to teacher
-public class SessionFrame extends JFrame {
+public class SessionFrame extends JDialog {
 
 }

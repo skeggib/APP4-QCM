@@ -1,18 +1,19 @@
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 import Controls.TextField;
 
-public class ConnexionFrame extends JFrame {
+public class ConnexionFrame extends JDialog {
 
-	TextField txtSession = new TextField();
+	TextField txtSession = new TextField("");
 	
-	private ConnexionFrame() {
-		
+	ConnexionFrame(JDialog dialog) {
+		super(dialog, "Connexion", true);
+		this.setSize(300, 480);
 	}
 	
 	// String session = ConnexionFrame.showDialog();
-	public static String showDialog() {
-		ConnexionFrame connexion = new ConnexionFrame();
+	public static String show(JDialog dialog) {
+		ConnexionFrame connexion = new ConnexionFrame(dialog);
 		return connexion.txtSession.getText();
 	}
 }
