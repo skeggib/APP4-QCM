@@ -25,36 +25,21 @@ public class Question {
 	private String rep4;
 
 	@DatabaseField
-	private int correct1;
+	private boolean correct1;
 	
 	@DatabaseField
-	private int correct2;
+	private boolean correct2;
 	
 	@DatabaseField
-	private int correct3;	
+	private boolean correct3;	
 	
 	@DatabaseField
-	private int correct4;
-
-	@DatabaseField(foreign=true,foreignAutoRefresh=true)
-    private Session session;
-
-	public Question(int id_q, String txt_quest, String rep1, String rep2, String rep3, String rep4) {
-		this.id_q = id_q;
-		this.txt_quest = txt_quest;
-		this.rep1 = rep1;
-		this.rep2 = rep2;
-		this.rep3 = rep3;
-		this.rep4 = rep4;
-	}
+	private boolean correct4;
+	
+	@DatabaseField(foreign=true, foreignAutoRefresh=true)
+	private Session session;
 
 	public Question() {
-		this.id_q = 0;
-		this.txt_quest = "";
-		this.rep1 = "";
-		this.rep2 = "";
-		this.rep3 = "";
-		this.rep4 = "";
 	}
 	
 	/**
@@ -157,7 +142,7 @@ public class Question {
 	 * 
 	 * @return validitee reponse 1
 	 */
-	public int getCorrect1() {
+	public boolean getCorrect1() {
 		return correct1;
 	}
 	
@@ -165,7 +150,7 @@ public class Question {
 	 * Modifie la validitee de la reponse 1
 	 * @param correct1
 	 */
-	public void setCorrect1(int correct1) {
+	public void setCorrect1(boolean correct1) {
 		this.correct1 = correct1;
 	}
 
@@ -173,7 +158,7 @@ public class Question {
 	 * 
 	 * @return validitee reponse 2
 	 */
-	public int getCorrect2() {
+	public boolean getCorrect2() {
 		return correct2;
 	}
 
@@ -181,7 +166,7 @@ public class Question {
 	 * Modifie la validite de la reponse 2
 	 * @param correct2
 	 */
-	public void setCorrect2(int correct2) {
+	public void setCorrect2(boolean correct2) {
 		this.correct2 = correct2;
 	}
 
@@ -189,7 +174,7 @@ public class Question {
 	 * 
 	 * @return validitee reponse 3
 	 */
-	public int getCorrect3() {
+	public boolean getCorrect3() {
 		return correct3;
 	}
 
@@ -197,7 +182,7 @@ public class Question {
 	 * Modifie la validite de la reponse 3
 	 * @param correct3
 	 */
-	public void setCorrect3(int correct3) {
+	public void setCorrect3(boolean correct3) {
 		this.correct3 = correct3;
 	}
 
@@ -205,7 +190,7 @@ public class Question {
 	 * 
 	 * @return validitee reponse 4
 	 */
-	public int getCorrect4() {
+	public boolean getCorrect4() {
 		return correct4;
 	}
 
@@ -213,7 +198,7 @@ public class Question {
 	 * Modifie la validitee de la reponse 4
 	 * @param correct4
 	 */
-	public void setCorrect4(int correct4) {
+	public void setCorrect4(boolean correct4) {
 		this.correct4 = correct4;
 	}
 	

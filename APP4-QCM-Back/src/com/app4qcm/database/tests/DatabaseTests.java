@@ -2,11 +2,9 @@ package com.app4qcm.database.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -75,10 +73,10 @@ public class DatabaseTests {
 		q1.setRep2("Rep 2");
 		q1.setRep3("Rep 3");
 		q1.setRep4("Rep 4");
-		q1.setCorrect1(1);
-		q1.setCorrect2(0);
-		q1.setCorrect3(1);
-		q1.setCorrect4(0);
+		q1.setCorrect1(true);
+		q1.setCorrect2(false);
+		q1.setCorrect3(true);
+		q1.setCorrect4(false);
 		
 		_context.getSessionDao().create(session);
 		_context.getQuestionDao().create(q1);
