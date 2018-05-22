@@ -8,12 +8,20 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class Context {
 	
-	Dao<Session, Integer> _sessionDao;
+	Dao<Session, String> _sessionDao;
 	Dao<Question, Integer> _questionDao;
 	
 	public Context(ConnectionSource connectionSource) throws SQLException {
 		_sessionDao = DaoManager.createDao(connectionSource, Session.class);
 		_questionDao = DaoManager.createDao(connectionSource, Question.class);
+	}
+	
+	public Dao<Session, String> getSessionDao() {
+		return _sessionDao;
+	}
+	
+	public Dao<Question, Integer> getQuestionDao() {
+		return _questionDao;
 	}
 	
 }

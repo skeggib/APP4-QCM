@@ -12,5 +12,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/APP4-QCM-Back/libs/ormlite-jdbc-5.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/sqlite-jdbc-3.21.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

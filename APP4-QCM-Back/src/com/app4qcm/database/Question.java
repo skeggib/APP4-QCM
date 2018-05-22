@@ -24,6 +24,9 @@ public class Question {
 	@DatabaseField
 	private String rep4;
 	
+	@DatabaseField(foreign=true,foreignAutoRefresh=true)
+    private Session session;
+
 	public Question(int id_q, String txt_quest, String rep1, String rep2, String rep3, String rep4) {
 		this.id_q = id_q;
 		this.txt_quest = txt_quest;
@@ -88,6 +91,14 @@ public class Question {
 
 	public void setRep4(String rep4) {
 		this.rep4 = rep4;
+	}
+	
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 	
 }
