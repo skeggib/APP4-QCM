@@ -1,7 +1,0 @@
-<com.app4qcm.database.Question>
-  <id__q>1</id__q>
-  <correct1>false</correct1>
-  <correct2>false</correct2>
-  <correct3>false</correct3>
-  <correct4>false</correct4>
-</com.app4qcm.database.Question>

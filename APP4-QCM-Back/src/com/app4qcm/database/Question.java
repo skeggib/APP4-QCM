@@ -23,7 +23,7 @@ public class Question {
 	
 	@DatabaseField
 	private String rep4;
-	
+
 	@DatabaseField
 	private boolean correct1;
 	
@@ -35,6 +35,9 @@ public class Question {
 	
 	@DatabaseField
 	private boolean correct4;
+	
+	@DatabaseField(foreign=true, foreignAutoRefresh=true)
+	private Session session;
 
 	public Question() {
 	}
@@ -197,6 +200,14 @@ public class Question {
 	 */
 	public void setCorrect4(boolean correct4) {
 		this.correct4 = correct4;
+	}
+	
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
 	}
 	
 }
