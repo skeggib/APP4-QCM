@@ -1,23 +1,36 @@
 package com.app4qcm.database;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "question")
 public class Question {
 
+	@DatabaseField(id = true)
 	private int id_q;
-	private String txt_quest;
-	private String rep1;
-	private String rep2;
-	private String rep3;
-	private String rep4;
-	private int correct;
 	
-	public Question(int id_q, String txt_quest, String rep1, String rep2, String rep3, String rep4, int correct) {
+	@DatabaseField
+	private String txt_quest;
+	
+	@DatabaseField
+	private String rep1;
+	
+	@DatabaseField
+	private String rep2;
+	
+	@DatabaseField
+	private String rep3;
+	
+	@DatabaseField
+	private String rep4;
+	
+	public Question(int id_q, String txt_quest, String rep1, String rep2, String rep3, String rep4) {
 		this.id_q = id_q;
 		this.txt_quest = txt_quest;
 		this.rep1 = rep1;
 		this.rep2 = rep2;
 		this.rep3 = rep3;
 		this.rep4 = rep4;
-		this.correct = correct;
 	}
 
 	public Question() {
@@ -27,7 +40,6 @@ public class Question {
 		this.rep2 = "";
 		this.rep3 = "";
 		this.rep4 = "";
-		this.correct = 1;
 	}
 	
 	public int getId_q() {
@@ -77,15 +89,5 @@ public class Question {
 	public void setRep4(String rep4) {
 		this.rep4 = rep4;
 	}
-
-	public int getCorrect() {
-		return correct;
-	}
-
-	public void setCorrect(int correct) {
-		this.correct = correct;
-	}
-	
-	
 	
 }
