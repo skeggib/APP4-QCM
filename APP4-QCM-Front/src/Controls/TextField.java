@@ -23,7 +23,7 @@ public class TextField extends JTextField implements FocusListener {
 	}
 
 	@Override
-	public void focusGained(FocusEvent arg0) {
+	public void focusGained(FocusEvent e) {
 		// TODO Auto-generated method stub
 		if (isEditable())
 			if (getText().equals(originalText))
@@ -31,7 +31,7 @@ public class TextField extends JTextField implements FocusListener {
 	}
 
 	@Override
-	public void focusLost(FocusEvent arg0) {
+	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
 		if (isEditable())
 			if (getText().equals(""))
@@ -39,9 +39,9 @@ public class TextField extends JTextField implements FocusListener {
 	}
 
 	@Override
-	public void setEditable(boolean editable) {
-		super.setEditable(editable);
-		if (!editable)
+	public void setEditable(boolean b) {
+		super.setEditable(b);
+		if (!b)
 			setText(originalText);
 	}
 }

@@ -1,3 +1,6 @@
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +15,7 @@ import Models.Question;
 public class ConnexionFrame extends JDialog {
 
 	static TextField txtSession = new TextField("Enter your Session ID...");
+	Button btnCopy = new Button("Copy");
 	Button btnOK = new Button("OK");
 	Label lblSession = new Label("Your SheetID is : ");
 
@@ -20,8 +24,8 @@ public class ConnexionFrame extends JDialog {
 	// as student
 	ConnexionFrame(JDialog dialog) {
 		super(dialog, "Connexion", true);
-		
-		lblSession.setText("Enter your Session ID : ");		
+
+		lblSession.setText("Enter your Session ID : ");
 		initialize();
 	}
 
@@ -30,9 +34,11 @@ public class ConnexionFrame extends JDialog {
 		super(dialog, "Connexion", true);
 		initialize();
 
+		pnlConnexion.add(btnCopy);
+		initializeCopy();
+
 		txtSession.setText(connexion);
 		txtSession.setEditable(false);
-		
 	}
 
 	void initialize() {
@@ -43,7 +49,7 @@ public class ConnexionFrame extends JDialog {
 		pnlConnexion.add(txtSession);
 		pnlConnexion.add(btnOK);
 		this.setContentPane(pnlConnexion);
-		
+
 		btnOK.requestFocus();
 
 		initializeOK();
@@ -55,6 +61,19 @@ public class ConnexionFrame extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tmp.setVisible(false);
+			}
+		});
+	}
+
+	void initializeCopy() {
+		btnCopy.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StringSelection stringSelection = new StringSelection(txtSession.getText());
+				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+				clipboard.setContents(stringSelection, null);
+				txtSession.requestFocus();
+				txtSession.selectAll();
 			}
 		});
 	}
