@@ -62,12 +62,14 @@ public class ConnexionFrame extends JDialog {
 	// show connexion identifier to share
 	public static void show(JDialog dialog, String connexion) {
 		ConnexionFrame connexionFrame = new ConnexionFrame(dialog, connexion);
+		connexionFrame.setLocationRelativeTo(dialog);
 		connexionFrame.setVisible(true);
 	}
 
 	// ask connexion identifier to join
 	public static String ask(JDialog dialog) {
 		ConnexionFrame connexionFrame = new ConnexionFrame(dialog);
+		connexionFrame.setLocationRelativeTo(dialog);
 		connexionFrame.setVisible(true);
 		return txtSession.getText();
 	}

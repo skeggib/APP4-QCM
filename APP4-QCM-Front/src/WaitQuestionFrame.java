@@ -14,6 +14,7 @@ public class WaitQuestionFrame extends JDialog {
 	
 	public static void show(JDialog dialog) {
 		WaitQuestionFrame waitQuestion = new WaitQuestionFrame(dialog);
+		waitQuestion.setLocationRelativeTo(dialog);
 		waitQuestion.setVisible(true);
 	}
 }
