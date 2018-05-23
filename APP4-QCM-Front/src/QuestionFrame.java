@@ -54,6 +54,7 @@ public class QuestionFrame extends JDialog {
 		txtAnswer4.setEditable(editable);
 		
 		lblNumQuestion.setText(String.valueOf(question.numQuestion));
+		lblQuestion.setText(lblQuestion.getText()+lblNumQuestion.getText());
 		txtQuestion.setText(question.text);
 		txtAnswer1.setText(question.answers[0].text);
 		cbAnswer1.setSelected(question.answers[0].checked);
@@ -73,6 +74,11 @@ public class QuestionFrame extends JDialog {
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
+		c.gridy = 0;
+		pnlQuestion.add(lblQuestion, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
 		c.gridy = 0;
 		pnlQuestion.add(txtQuestion, c);
 		
