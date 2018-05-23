@@ -10,7 +10,6 @@ import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
 import Controls.TextField;
-import Models.Question;
 
 public class ConnexionFrame extends JDialog {
 

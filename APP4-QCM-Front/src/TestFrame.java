@@ -6,29 +6,29 @@ import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
+import com.app4qcm.database.Question;
+import com.app4qcm.database.Session;
+
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
 import Controls.ScrollPanel;
 import Controls.TextField;
-import Models.Answer;
-import Models.Question;
-import Models.Sheet;
 
 // calls QuestionFrame (as teacher)
 // edit all questions, add new, etc.
 public class TestFrame extends JDialog {
 
-	Panel pnlSheet = new Panel();
-	ScrollPanel scrSheet = new ScrollPanel(null);
+	Panel pnlSession = new Panel();
+	ScrollPanel scrSession = new ScrollPanel(null);
 	Panel pnlInside = new Panel();
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
 
-	Sheet sheet;
+	Session session;
 
-	private TestFrame(JDialog dialog, Sheet sheet) {
-		super(dialog, "Sheet", true);
-		this.sheet = sheet;
+	private TestFrame(JDialog dialog, Session session) {
+		super(dialog, "Session", true);
+		this.session = session;
 		initialize();
 	}
 
@@ -70,24 +70,24 @@ public class TestFrame extends JDialog {
 	}
 
 	void update() {
-		remove(scrSheet);
+		remove(scrSession);
 		setLayout(new BorderLayout());
 
-		pnlSheet = new Panel();
-		pnlSheet.setLayout(null);
+		pnlSession = new Panel();
+		pnlSession.setLayout(null);
 
 		int y = 6;
-		for (Question question : sheet.getQuestions()) {
+		for (Question question : session.getQuestions()) {
 			Panel tmpPanel = create(question);
 			tmpPanel.setLocation(6, y);
 			y += tmpPanel.getHeight();
-			pnlSheet.add(tmpPanel);
+			pnlSession.add(tmpPanel);
 		}
 
-		pnlSheet.setPreferredSize(new Dimension(550, y));
+		pnlSession.setPreferredSize(new Dimension(550, y));
 
-		scrSheet = new ScrollPanel(pnlSheet);
-		add(scrSheet, BorderLayout.CENTER);
+		scrSession = new ScrollPanel(pnlSession);
+		add(scrSession, BorderLayout.CENTER);
 
 		setPreferredSize(new Dimension(600, 480));
 		pack();
@@ -99,7 +99,7 @@ public class TestFrame extends JDialog {
 		Panel panel = new Panel();
 		panel.setLayout(null);
 
-		TextField txtQuestion = new TextField(question.text);
+		TextField txtQuestion = new TextField(question.getRep1());
 		txtQuestion.setEditable(false);
 		txtQuestion.setBounds(6, 6, 400, 20);
 		txtQuestion.setLocation(6, 6);
@@ -107,22 +107,22 @@ public class TestFrame extends JDialog {
 		
 		Button btnStart = new Button("Start");
 		btnStart.setBounds(412, 6, 100, 20);
-		initializeStart(btnStart, question.numQuestion);
+		initializeStart(btnStart, question.getId_q());
 		panel.add(btnStart);
 		
 		Button btnStop = new Button("Stop");
 		btnStop.setBounds(412, 32, 100, 20);
-		initializeStart(btnStop, question.numQuestion);
+		initializeStart(btnStop, question.getId_q());
 		panel.add(btnStop);
 		
 		Button btnStats = new Button("Stats");
 		btnStats.setBounds(412, 58, 100, 20);
-		initializeStart(btnStats, question.numQuestion);
+		initializeStart(btnStats, question.getId_q());
 		panel.add(btnStats);
 
 		int y = txtQuestion.getY() + txtQuestion.getHeight() + 6;
-		for (Answer answer : question.answers) {
-			Label lblAnswer = new Label("• " + answer.text);
+		for (String answer : question.getAnswers()) {
+			Label lblAnswer = new Label("• " + answer);
 			lblAnswer.setBounds(30, y, 400, 15);
 			y += lblAnswer.getHeight() + 6;
 			panel.add(lblAnswer);
@@ -132,8 +132,8 @@ public class TestFrame extends JDialog {
 		return panel;
 	}
 
-	public static void show(JDialog dialog, Sheet sheet) {
-		TestFrame testFrame = new TestFrame(dialog, sheet);
+	public static void show(JDialog dialog, Session session) {
+		TestFrame testFrame = new TestFrame(dialog, session);
 		testFrame.setLocationRelativeTo(dialog);
 		testFrame.setVisible(true);
 	}

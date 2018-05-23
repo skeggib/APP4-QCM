@@ -12,6 +12,16 @@ public class ScrollPanel extends JScrollPane {
 		getVerticalScrollBar().setUnitIncrement(10);
 	}
 	
+	public int getScrollValue() {
+		JScrollBar vertical = getVerticalScrollBar();
+		return vertical.getValue();
+	}
+	
+	public void setScrollValue(int value) {
+		JScrollBar vertical = getVerticalScrollBar();
+		vertical.setValue(value);
+	}
+	
 	public void scrollToBottom() {
 		JScrollBar vertical = getVerticalScrollBar();
 		vertical.setValue(vertical.getMaximum());
