@@ -23,12 +23,6 @@ public class ConnexionFrame extends JDialog {
 		initialize();
 
 		txtSession.setText("Enter your Session ID...");
-		txtSession.addFocusListener(new FocusListener(){
-	        @Override
-	        public void focusGained(FocusEvent e){
-	            textField.setText("");
-	        }
-	    });
 	}
 
 	// as teacher
