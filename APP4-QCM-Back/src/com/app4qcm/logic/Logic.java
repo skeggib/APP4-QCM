@@ -31,14 +31,25 @@ public class Logic {
 		clients.remove(client.getId());
 	}
 	
+	/**
+	 * Reception de commande
+	 * @param client
+	 * @param str
+	 * @return La reponse du serveur
+	 */
 	public String command(ClientConnection client, String str) {
+		
 		int i=0;
 		do{
 			i++;
 		}
 		while (str.charAt(i)!=' ' && i<(str.length()-1));
+
+		//Recuperation du premier mot
 		String fonction=str.substring(0,i);
 		String reste="";
+
+		//Suite du texte recupere
 		if ((i+1)<str.length()-1)
 			reste=str.substring(i+1);
 		
@@ -58,11 +69,20 @@ public class Logic {
 		return "error";
 	}
 
+	/**
+	 * Eleve demande une question
+	 * @return reponse de la demande + numero question + texte de la question
+	 */
 	private String get_question() {
 		// TODO Auto-generated method stub
 		return "ok";
 	}
 
+	/**
+	 * Professeur lance une question
+	 * @param reste
+	 * @return validitee de la question demandee
+	 */
 	private String send_question(String reste) {
 		// TODO Auto-generated method stub
 		try 
@@ -76,29 +96,45 @@ public class Logic {
 		return "ok";
 	}
 
+	/**
+	 * Professeur cree un QCM
+	 * @param reste
+	 * @return si la session est cree ou non
+	 */
 	private String create_session(String reste) {
 		// TODO Auto-generated method stub
 		Session session=(Session) XML_Tools.decodeFromString(reste);
 		
+		//Verification que le nom n est pas null
 		if (session.getName()==null)
 			return "invalid_name";
 		else{
-			switch(session.getName()) {
-				case "":
+			//Verification que le nom n est pas vide
+			if(session.getName().trim().isEmpty()) {
+					System.out.println("cas1");
 					return "invalid_name";
-				case " ":
-					return "invalid_name";
-				default:
-					return "ok";
 			}
+			return "ok";
 		}
 	}
-
+	
+	/**
+	 * Eleve se connecte a la session
+	 * @param client
+	 * @param reste
+	 * @return validee de la connexion
+	 */
 	private String join_session(ClientConnection client, String reste)  {
 		// TODO Auto-generated method stub		
 		return "session_not_found";
 	}
 
+	/**
+	 * Professeur se connecte a la session
+	 * @param client
+	 * @param reste
+	 * @return validee de la connexion
+	 */
 	private String start_session(ClientConnection client, String reste) {
 		// TODO Auto-generated method stub
 		return "session_not_found";
