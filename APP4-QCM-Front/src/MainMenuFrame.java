@@ -43,7 +43,7 @@ public class MainMenuFrame extends JDialog {
 		btnCreate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//SessionCreationFrame.show(tmp);
+				SheetFrame.show(tmp);
 			}
 		});
 	}
@@ -55,7 +55,7 @@ public class MainMenuFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String sessionId = "GET FROM SERVER";
 				ConnexionFrame.show(tmp, sessionId);
-				//SessionFrame.show(tmp, sessionId);
+				//TestFrame.show(tmp, sessionId);
 			}
 		});
 	}
