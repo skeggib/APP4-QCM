@@ -103,6 +103,9 @@ public class SheetFrame extends JDialog {
 		pnlTerminate.setBounds(12, y, btnTerminate.getX() + btnTerminate.getWidth() + 12, btnTerminate.getHeight() + 12);
 		pnlSheet.add(pnlTerminate);
 		
+		scrSheet = new ScrollPanel(pnlSheet);
+		setContentPane(scrSheet);
+		
 		revalidate();
 	}
 
