@@ -42,7 +42,7 @@ public class SheetFrame extends JDialog {
 	}
 
 	void initialize() {
-		sheet.add(new Question("TEST QUESTION", new Answer("ABC", false), new Answer("DEF", false),
+		sheet.add(new Question(1, "TEST QUESTION", new Answer("ABC", false), new Answer("DEF", false),
 				new Answer("GHI", false), new Answer("JKL", false)));
 
 		setSize(600, 480);

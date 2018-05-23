@@ -51,7 +51,6 @@ public class ConnexionFrame extends JDialog {
 
 	void initializeOK() {
 		JDialog tmp = this;
-		Question question = new Question();
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -22,6 +22,7 @@ public class QuestionFrame extends JDialog {
 	Panel pnlQuestion = new Panel();
 	
 	Label lblQuestion = new Label("Question n°");
+	Label lblNumQuestion = new Label("");
 	TextField txtQuestion = new TextField("Enter your question here...");
 	
 	CheckBox cbAnswer1 = new CheckBox();
@@ -52,6 +53,7 @@ public class QuestionFrame extends JDialog {
 		txtAnswer3.setEditable(editable);
 		txtAnswer4.setEditable(editable);
 		
+		lblNumQuestion.setText(String.valueOf(question.numQuestion));
 		txtQuestion.setText(question.text);
 		txtAnswer1.setText(question.answers[0].text);
 		cbAnswer1.setSelected(question.answers[0].checked);
@@ -132,13 +134,14 @@ public class QuestionFrame extends JDialog {
 		    @Override
 		    public void actionPerformed(ActionEvent e)
 		    {
+		    	int numQuestion = Integer.parseInt(lblNumQuestion.getText());
 		    	String questionText = tmp.txtQuestion.getText();
 				Answer answer1 = new Answer(tmp.txtAnswer1.getText(), tmp.cbAnswer1.isSelected());
 				Answer answer2 = new Answer(tmp.txtAnswer2.getText(), tmp.cbAnswer2.isSelected());
 				Answer answer3 = new Answer(tmp.txtAnswer3.getText(), tmp.cbAnswer3.isSelected());
 				Answer answer4 = new Answer(tmp.txtAnswer4.getText(), tmp.cbAnswer4.isSelected());
 				
-				result = new Question(questionText, answer1, answer2, answer3, answer4);
+				result = new Question(numQuestion, questionText, answer1, answer2, answer3, answer4);
 				tmp.setVisible(false);
 		    }
 		});
