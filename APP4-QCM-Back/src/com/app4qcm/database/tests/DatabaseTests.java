@@ -67,7 +67,6 @@ public class DatabaseTests {
 		session.setName("Test session");
 		
 		Question q1 = new Question();
-		q1.setSession(session);
 		q1.setTxt_quest("Question ?");
 		q1.setRep1("Rep 1");
 		q1.setRep2("Rep 2");
@@ -85,7 +84,6 @@ public class DatabaseTests {
 		assertEquals(1, _context.getSessionDao().queryForAll().size());
 		
 		Question given = _context.getQuestionDao().queryForAll().get(0);
-		assertEquals(q1.getSession().getName(), given.getSession().getName());
 		assertEquals(q1.getTxt_quest(), given.getTxt_quest());
 		assertEquals(q1.getRep1(), given.getRep1());
 		assertEquals(q1.getRep2(), given.getRep2());
