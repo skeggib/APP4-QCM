@@ -34,7 +34,7 @@ public class ClientConnection implements Runnable {
 			String line = reader.readLine();
 			while (line != null) {
 				System.out.println("(" + id + ") Received > " + line);
-				this.logic.command(line);
+				this.logic.command(this, line);
 				line = reader.readLine();
 			}
 			System.out.println("(" + id + ") Disconnected");

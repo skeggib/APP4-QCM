@@ -26,7 +26,7 @@ public class Logic {
 		clients.remove(client.getId());
 	}
 	
-	public void command(String str) {
+	public void command(ClientConnection client, String str) {
 		
 	}
 
