@@ -31,7 +31,7 @@ public class Logic {
 		clients.remove(client.getId());
 	}
 	
-	public void command(ClientConnection client, String str) {
+	public String command(ClientConnection client, String str) {
 		int i=0;
 		do{
 			i++;
@@ -44,21 +44,18 @@ public class Logic {
 		
 		switch(fonction) {
 		  case "create_session":	
-			  	create_session(reste);
-		    	break;
+			  return create_session(reste);
 		  case "start_session":
-			  start_session(client,reste);
-		    	break;
+			  return start_session(client,reste);
 		  case "join_session":
-			  	join_session(client,reste);
-			  	break;
+			  return join_session(client,reste);
 		  case "send_question":
-			  	send_question(reste);
-			    break;
+			  return send_question(reste);
 		  case "get_question":
-			  	get_question();
-			    break;
+			  return get_question();
 		}
+		
+		return "error";
 	}
 
 	private String get_question() {

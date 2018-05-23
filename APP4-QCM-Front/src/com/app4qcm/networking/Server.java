@@ -33,16 +33,19 @@ public class Server {
 		return new BufferedReader(new InputStreamReader(this.socket.getInputStream())).readLine();
 	}
 	
-	public void createSession(Session session) throws IOException, InvalidSessionName, SessionNameAlreadyUsed {
+	public void createSession(Session session) throws IOException, InvalidSessionName, SessionNameAlreadyUsed, UnrecognizedResponse {
 		String response = send(
 				"create_session " + 
 				XML_Tools.encodeToString(session).replace("\n", "").replace("\r", ""));
+		System.out.println("Response: " + response);
 		if (response.equals("ok"))
 			return;
 		if (response.equals("invalid_name"))
 			throw new InvalidSessionName();
 		if (response.equals("name_already_used"))
 			throw new SessionNameAlreadyUsed();
+		else
+			throw new UnrecognizedResponse();
 	}
 	
 }
