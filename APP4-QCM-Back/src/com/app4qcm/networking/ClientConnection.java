@@ -35,6 +35,9 @@ public class ClientConnection implements Runnable {
 			while (line != null) {
 				System.out.println("(" + id + ") Received > " + line);
 				this.logic.command(this, line);
+				System.out.println("(" + id + ") Sending \"ok\"");
+				this.socket.getOutputStream().write(new String("ok\n").getBytes());
+				this.socket.getOutputStream().flush();
 				line = reader.readLine();
 			}
 			System.out.println("(" + id + ") Disconnected");

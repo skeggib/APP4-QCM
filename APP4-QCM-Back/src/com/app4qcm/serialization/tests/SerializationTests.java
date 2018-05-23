@@ -95,5 +95,12 @@ public class SerializationTests {
 		assertEquals("presque",result.getRep4());
 	}
 	
-
+	@Test
+	public void testEmptySession() {
+		try {
+			XML_Tools.encodeToString(new Session());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package com.app4qcm.database;
 
+import java.util.ArrayList;
+
 import com.app4qcm.database.Question;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -12,8 +14,8 @@ public class Session {
 	@DatabaseField(id = true)
 	private String name;
 	
-	@ForeignCollectionField
-	private ForeignCollection<Question> questions;
+	@DatabaseField
+	private ArrayList<Question> questions;
 
 	public Session() {
 		
@@ -33,7 +35,7 @@ public class Session {
 	 * 
 	 * @return La liste des questions
 	 */
-	public ForeignCollection<Question> getQuestions() {
+	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
 	
@@ -41,7 +43,7 @@ public class Session {
 	 * Modifie la liste des questions
 	 * @param questions
 	 */
-	public void setQuestions(ForeignCollection<Question> questions) {
+	public void setQuestions(ArrayList<Question> questions) {
 		this.questions = questions;
 	}
 }

@@ -35,9 +35,6 @@ public class Question {
 	
 	@DatabaseField
 	private boolean correct4;
-	
-	@DatabaseField(foreign=true, foreignAutoRefresh=true, canBeNull=false)
-	private Session session;
 
 	public Question() {
 	}
@@ -200,14 +197,6 @@ public class Question {
 	 */
 	public void setCorrect4(boolean correct4) {
 		this.correct4 = correct4;
-	}
-	
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		this.session = session;
 	}
 	
 }
