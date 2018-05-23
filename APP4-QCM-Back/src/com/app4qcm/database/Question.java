@@ -1,39 +1,25 @@
 package com.app4qcm.database;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-
-@DatabaseTable(tableName = "question")
 public class Question {
 
-	@DatabaseField(id = true)
 	private int id_q;
 	
-	@DatabaseField
 	private String txt_quest;
 	
-	@DatabaseField
 	private String rep1;
 	
-	@DatabaseField
 	private String rep2;
 	
-	@DatabaseField
 	private String rep3;
 	
-	@DatabaseField
 	private String rep4;
 
-	@DatabaseField
 	private boolean correct1;
 	
-	@DatabaseField
 	private boolean correct2;
 	
-	@DatabaseField
 	private boolean correct3;	
 	
-	@DatabaseField
 	private boolean correct4;
 
 	public Question() {
