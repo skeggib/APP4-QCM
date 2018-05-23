@@ -22,7 +22,6 @@ public class QuestionFrame extends JDialog {
 	Panel pnlQuestion = new Panel();
 	
 	Label lblQuestion = new Label("Question n°");
-	Label lblNumQuestion = new Label("");
 	TextField txtQuestion = new TextField("Enter your question here...");
 	
 	CheckBox cbAnswer1 = new CheckBox();
@@ -35,10 +34,13 @@ public class QuestionFrame extends JDialog {
 	TextField txtAnswer4 = new TextField("Enter your answer here...");
 	
 	Button btnValidate = new Button("Validate");
+
+	int numQuestion;
 		
 	// editable = true
-	private QuestionFrame(JDialog dialog) {
+	private QuestionFrame(JDialog dialog, int numQuestion) {
 		super(dialog, "", true);
+		this.numQuestion = numQuestion;
 		this.initialize();
 	}
 	
@@ -53,8 +55,8 @@ public class QuestionFrame extends JDialog {
 		txtAnswer3.setEditable(editable);
 		txtAnswer4.setEditable(editable);
 		
-		lblNumQuestion.setText(String.valueOf(question.numQuestion));
-		lblQuestion.setText(lblQuestion.getText()+lblNumQuestion.getText());
+		numQuestion = question.numQuestion;
+		lblQuestion.setText(lblQuestion.getText()+ String.valueOf(numQuestion));
 		txtQuestion.setText(question.text);
 		txtAnswer1.setText(question.answers[0].text);
 		cbAnswer1.setSelected(question.answers[0].checked);
@@ -140,7 +142,6 @@ public class QuestionFrame extends JDialog {
 		    @Override
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	int numQuestion = Integer.parseInt(lblNumQuestion.getText());
 		    	String questionText = tmp.txtQuestion.getText();
 				Answer answer1 = new Answer(tmp.txtAnswer1.getText(), tmp.cbAnswer1.isSelected());
 				Answer answer2 = new Answer(tmp.txtAnswer2.getText(), tmp.cbAnswer2.isSelected());
@@ -154,8 +155,8 @@ public class QuestionFrame extends JDialog {
 	}
 	
 	// for teacher
-	public static Question create(JDialog dialog) {
-		QuestionFrame questionFrame = new QuestionFrame(dialog);
+	public static Question create(JDialog dialog, int numQuestion) {
+		QuestionFrame questionFrame = new QuestionFrame(dialog, numQuestion);
 		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
 		return questionFrame.result;

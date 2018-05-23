@@ -64,7 +64,8 @@ public class SheetFrame extends JDialog {
 		btnNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sheet.add(QuestionFrame.create(tmp));
+				int num = sheet.getQuestions().size() + 1;
+				sheet.add(QuestionFrame.create(tmp, num));
 				update();
 			}
 		});
