@@ -1,3 +1,5 @@
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 public class App4QcmFront {
 
