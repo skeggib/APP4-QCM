@@ -1,5 +1,7 @@
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -19,7 +21,7 @@ import Models.Question;
 // 
 public class QuestionFrame extends JDialog {
 
-	Panel pnlQuestion = new Panel();
+	Panel pnlQuestionFrame = new Panel();
 	
 	Label lblQuestion = new Label("Question n°");
 	Label lblNumQuestion = new Label("");
@@ -69,65 +71,130 @@ public class QuestionFrame extends JDialog {
 	void initialize() {
 		this.setSize(600, 480);
 		
+		pnlQuestionFrame.setLayout(new GridBagLayout());
+		GridBagConstraints gbcFrame = new GridBagConstraints();
+		
+		//Panel Question
+		Panel pnlQuestion = new Panel();
 		pnlQuestion.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		c.ipady = 20;
 		
+		c.ipadx = 30;
+		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
+		c.gridwidth = 1;
 		c.gridy = 0;
 		pnlQuestion.add(lblQuestion, c);
 		
+		c.ipadx = 280;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
+		c.gridwidth = 2;
 		c.gridy = 0;
 		pnlQuestion.add(txtQuestion, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 2;
-		pnlQuestion.add(cbAnswer1, c);
+		//Add to pnlQuestionFrame
+		gbcFrame.ipady = 50;
+		gbcFrame.fill = GridBagConstraints.BOTH;
+		gbcFrame.gridx = 0;
+		gbcFrame.gridy = 1;
+		pnlQuestionFrame.add(pnlQuestion, gbcFrame);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 2;
-		pnlQuestion.add(txtAnswer1, c);
+		//Panel Answer
+		Panel pnlAnswer = new Panel();
+		pnlAnswer.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.ipady = 20;
+		gbc.insets = new Insets(5,0,0,0);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 3;
-		pnlQuestion.add(cbAnswer2, c);
+		gbc.ipadx = 30;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridwidth = 1;
+		gbc.gridy = 0;
+		pnlAnswer.add(cbAnswer1, gbc);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 3;
-		pnlQuestion.add(txtAnswer2, c);
+		gbc.ipadx = 280;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridwidth = 2;
+		gbc.gridy = 0;
+		pnlAnswer.add(txtAnswer1, gbc);
+
+		gbc.ipadx = 30;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridwidth = 1;
+		gbc.gridy = 1;
+		pnlAnswer.add(cbAnswer2, gbc);
+
+		gbc.ipadx = 280;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridwidth = 2;
+		gbc.gridy = 1;
+		pnlAnswer.add(txtAnswer2, gbc);
+
+		gbc.ipadx = 30;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridwidth = 1;
+		gbc.gridy = 2;
+		pnlAnswer.add(cbAnswer3, gbc);
+
+		gbc.ipadx = 280;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridwidth = 2;
+		gbc.gridy = 2;
+		pnlAnswer.add(txtAnswer3, gbc);
+
+		gbc.ipadx = 30;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridwidth = 1;
+		gbc.gridy = 3;
+		pnlAnswer.add(cbAnswer4, gbc);
+
+		gbc.ipadx = 280;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridwidth = 2;
+		gbc.gridy = 3;
+		pnlAnswer.add(txtAnswer4, gbc);		
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 4;
-		pnlQuestion.add(cbAnswer3, c);
+		//Add to pnlQuestionFrame
+		gbcFrame.ipady = 100;
+		gbcFrame.ipadx = 280;
+		gbcFrame.fill = GridBagConstraints.BOTH;
+		gbcFrame.gridx = 0;
+		gbcFrame.gridy = 2;
+		pnlQuestionFrame.add(pnlAnswer, gbcFrame);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 4;
-		pnlQuestion.add(txtAnswer3, c);
+		//Panel Bouton
+		Panel pnlBouton = new Panel();
+		pnlBouton.setLayout(new GridBagLayout());
+		GridBagConstraints gbcBouton = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 5;
-		pnlQuestion.add(cbAnswer4, c);
+		gbcBouton.ipadx = 50;
+		gbcBouton.fill = GridBagConstraints.HORIZONTAL;
+		gbcBouton.gridx = 3;
+		gbc.gridwidth = 1;
+		gbcBouton.gridy = 0;
+		pnlBouton.add(btnValidate, gbcBouton);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 5;
-		pnlQuestion.add(txtAnswer4, c);
+		//Add to pnlQuestionFrame
+		gbcFrame.anchor = GridBagConstraints.EAST;
+		gbcFrame.ipady = 50;
+		gbcFrame.fill = GridBagConstraints.BOTH;
+		gbcFrame.gridx = 0;
+		gbcFrame.gridy = 3;
+		pnlQuestionFrame.add(pnlBouton, gbcFrame);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
-		c.gridy = 6;
-		pnlQuestion.add(btnValidate, c);
-		
-		this.setContentPane(pnlQuestion);
+		this.setContentPane(pnlQuestionFrame);
 		
 		initializeValidate();
 	}
@@ -147,7 +214,7 @@ public class QuestionFrame extends JDialog {
 				Answer answer3 = new Answer(tmp.txtAnswer3.getText(), tmp.cbAnswer3.isSelected());
 				Answer answer4 = new Answer(tmp.txtAnswer4.getText(), tmp.cbAnswer4.isSelected());
 				
-				result = new Question(numQuestion, questionText, answer1, answer2, answer3, answer4);
+				result = new Question(questionText, answer1, answer2, answer3, answer4);
 				tmp.setVisible(false);
 		    }
 		});
