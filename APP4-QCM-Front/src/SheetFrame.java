@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
+import Controls.ScrollPanel;
 import Controls.TextField;
 import Models.Answer;
 import Models.Question;
@@ -19,7 +20,8 @@ import Models.Sheet;
 // edit all questions, add new, etc.
 public class SheetFrame extends JDialog {
 
-	Panel pnlSheet;
+	Panel pnlSheet = new Panel();
+	ScrollPanel scrSheet;
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
 	Panel pnlNew = new Panel();
 	Button btnNew = new Button("Add new question");
@@ -73,8 +75,8 @@ public class SheetFrame extends JDialog {
 		btnTerminate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String SheetID = ConnexionFrame.ask(tmp); 
-				//ask to server for SheetID
+				String sheetId = ConnexionFrame.ask(tmp); 
+				//ask to server for sheetId
 				tmp.setVisible(false);
 				tmp.dispose();
 			}
