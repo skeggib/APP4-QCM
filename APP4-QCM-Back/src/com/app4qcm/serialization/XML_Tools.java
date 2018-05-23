@@ -50,4 +50,28 @@ public class XML_Tools {
         }       
         return object;
     }
+    
+    /**
+     * 
+     * @param object
+     * @return serialisation de l'instance dans un String
+     */
+    public static String encodeToString(Object object) {
+    	XStream xstream = new XStream(new DomDriver());
+		//conversion XML
+		return xstream.toXML(object);
+    }
+    
+    /**
+     * 
+     * @param encodage
+     * @return instance de l'objet deserialisee a partir du string
+     */
+    public static Object decodeFromString(String encodage)  {
+        Object object = null;       
+        XStream xstream = new XStream( new DomDriver());
+        //Deserialisation du string XML
+        object =  xstream.fromXML(encodage);
+        return object;
+    }
 }
