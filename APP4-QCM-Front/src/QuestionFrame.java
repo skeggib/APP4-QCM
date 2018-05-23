@@ -1,3 +1,5 @@
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -61,16 +63,60 @@ public class QuestionFrame extends JDialog {
 	
 	void initialize() {
 		this.setSize(600, 480);
-		pnlQuestion.add(txtQuestion);
-		pnlQuestion.add(cbAnswer1);
-		pnlQuestion.add(txtAnswer1);
-		pnlQuestion.add(cbAnswer2);
-		pnlQuestion.add(txtAnswer2);
-		pnlQuestion.add(cbAnswer3);
-		pnlQuestion.add(txtAnswer3);
-		pnlQuestion.add(cbAnswer4);
-		pnlQuestion.add(txtAnswer4);
-		pnlQuestion.add(btnValidate);
+		
+		pnlQuestion.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		pnlQuestion.add(txtQuestion, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		pnlQuestion.add(cbAnswer1, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 2;
+		pnlQuestion.add(txtAnswer1, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		pnlQuestion.add(cbAnswer2, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 3;
+		pnlQuestion.add(txtAnswer2, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		pnlQuestion.add(cbAnswer3, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 4;
+		pnlQuestion.add(txtAnswer3, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 5;
+		pnlQuestion.add(cbAnswer4, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 5;
+		pnlQuestion.add(txtAnswer4, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = 6;
+		pnlQuestion.add(btnValidate, c);
+		
 		this.setContentPane(pnlQuestion);
 		
 		initializeValidate();
@@ -99,18 +145,21 @@ public class QuestionFrame extends JDialog {
 	// for teacher
 	public static Question create(JDialog dialog) {
 		QuestionFrame questionFrame = new QuestionFrame(dialog);
+		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
 		return questionFrame.result;
 	}
 	
 	public static Question edit(JDialog dialog, Question question) {
 		QuestionFrame questionFrame = new QuestionFrame(dialog, question, true);
+		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
 		return questionFrame.result;
 	}
 
 	public static void show(JDialog dialog, Question question) {
 		QuestionFrame questionFrame = new QuestionFrame(dialog, question, false);
+		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
 	}
 	
