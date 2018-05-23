@@ -23,7 +23,9 @@ public class SheetFrame extends JDialog {
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
 	Panel pnlNew = new Panel();
 	Button btnNew = new Button("Add new question");
-
+	Button btnTerminate = new Button("Terminate MCQ");
+	Panel pnlTerminate = new Panel();
+	
 	Sheet sheet = new Sheet();
 
 	private SheetFrame(JDialog dialog) {
@@ -46,7 +48,12 @@ public class SheetFrame extends JDialog {
 		btnNew.setBounds(6, 6, 150, 20);
 		pnlNew.add(btnNew);
 
+		btnTerminate.setBounds(300, 6, 150, 20);
+		pnlTerminate.setLayout(null);
+		pnlTerminate.add(btnTerminate);
+		
 		initializeNew();
+		initializeTerminate();
 		update();
 	}
 
@@ -57,6 +64,19 @@ public class SheetFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				sheet.add(QuestionFrame.create(tmp));
 				update();
+			}
+		});
+	}
+	
+	void initializeTerminate() {
+		JDialog tmp = this;
+		btnTerminate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String SheetID = ConnexionFrame.ask(tmp); 
+				//ask to server for SheetID
+				tmp.setVisible(false);
+				tmp.dispose();
 			}
 		});
 	}
@@ -75,7 +95,11 @@ public class SheetFrame extends JDialog {
 		}
 
 		pnlNew.setBounds(12, y, btnNew.getWidth() + 12, btnNew.getHeight() + 12);
+		y += pnlNew.getHeight();
 		pnlSheet.add(pnlNew);
+		
+		pnlTerminate.setBounds(12, y, btnTerminate.getX() + btnTerminate.getWidth() + 12, btnTerminate.getHeight() + 12);
+		pnlSheet.add(pnlTerminate);
 		
 		revalidate();
 	}
