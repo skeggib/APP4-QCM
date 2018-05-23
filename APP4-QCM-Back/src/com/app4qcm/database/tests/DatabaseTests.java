@@ -96,5 +96,10 @@ public class DatabaseTests {
 		assertEquals(q1.getCorrect3(), given.getCorrect3());
 		assertEquals(q1.getCorrect4(), given.getCorrect4());
 	}
+	
+	@Test
+	public void insertTwoQuestions() {
+		
+	}
 
 }

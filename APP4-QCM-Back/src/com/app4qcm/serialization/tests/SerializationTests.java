@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import com.app4qcm.database.Question;
+import com.app4qcm.database.Session;
 import com.app4qcm.serialization.XML_Tools;
 
 public class SerializationTests {

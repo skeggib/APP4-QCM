@@ -16,7 +16,7 @@ public class Session {
 	private ForeignCollection<Question> questions;
 
 	public Session() {
-
+		
 	}
 	
 	public String getName() {

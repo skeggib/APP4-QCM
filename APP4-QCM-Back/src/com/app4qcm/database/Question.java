@@ -36,7 +36,7 @@ public class Question {
 	@DatabaseField
 	private boolean correct4;
 	
-	@DatabaseField(foreign=true, foreignAutoRefresh=true)
+	@DatabaseField(foreign=true, foreignAutoRefresh=true, canBeNull=false)
 	private Session session;
 
 	public Question() {
