@@ -48,4 +48,18 @@ public class Server {
 			throw new UnrecognizedResponse();
 	}
 	
+	public void sendQuestion(int numero) throws IOException, NotConnected, InvalidQuestionNumber, UnrecognizedResponse{
+		String response=send("send_question "+ Integer.toString(numero));
+		System.out.println("Response: " + response);
+		if (response.equals("ok"))
+			return;
+		if (response.equals("not_connected"))
+			throw new NotConnected();
+		if (response.equals("invalid_question"))
+			throw new InvalidQuestionNumber();
+		else
+			throw new UnrecognizedResponse();
+		
+	}
+	
 }
