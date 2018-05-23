@@ -10,6 +10,7 @@ import javax.swing.JWindow;
 
 import Controls.Button;
 import Controls.CheckBox;
+import Controls.Label;
 import Controls.Panel;
 import Controls.TextField;
 import Models.Answer;
@@ -20,6 +21,7 @@ public class QuestionFrame extends JDialog {
 
 	Panel pnlQuestion = new Panel();
 	
+	Label lblQuestion = new Label("Question n°");
 	TextField txtQuestion = new TextField("Enter your question here...");
 	
 	CheckBox cbAnswer1 = new CheckBox();

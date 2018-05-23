@@ -11,7 +11,7 @@ import Models.Question;
 
 public class ConnexionFrame extends JDialog {
 
-	static TextField txtSession = new TextField("");
+	static TextField txtSession = new TextField("Enter your Session ID...");
 	Button btnOK = new Button("OK");
 	Label lblSession = new Label("Your SheetID is : ");
 
@@ -20,9 +20,9 @@ public class ConnexionFrame extends JDialog {
 	// as student
 	ConnexionFrame(JDialog dialog) {
 		super(dialog, "Connexion", true);
+		
+		lblSession.setText("Enter your Session ID : ");		
 		initialize();
-
-		txtSession.setText("Enter your Session ID...");
 	}
 
 	// as teacher
@@ -32,16 +32,19 @@ public class ConnexionFrame extends JDialog {
 
 		txtSession.setText(connexion);
 		txtSession.setEditable(false);
-		pnlConnexion.add(lblSession);
+		
 	}
 
 	void initialize() {
 		this.setSize(300, 100);
 
 		txtSession.setText("Enter your Session ID...");
+		pnlConnexion.add(lblSession);
 		pnlConnexion.add(txtSession);
 		pnlConnexion.add(btnOK);
 		this.setContentPane(pnlConnexion);
+		
+		btnOK.requestFocus();
 
 		initializeOK();
 	}
