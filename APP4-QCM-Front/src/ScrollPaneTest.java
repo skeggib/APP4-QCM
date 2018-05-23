@@ -1,11 +1,12 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import Controls.Button;
 import Controls.Label;
@@ -16,28 +17,21 @@ import Models.Answer;
 import Models.Question;
 import Models.Sheet;
 
-// calls QuestionFrame (as teacher)
-// edit all questions, add new, etc.
-public class SheetFrame extends JDialog {
+public class ScrollPaneTest extends JDialog {
 
 	Panel pnlSheet = new Panel();
-	ScrollPanel scrSheet;
+	ScrollPanel scrSheet = new ScrollPanel(null);
+	Panel pnlInside = new Panel();
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
-	Panel pnlNew = new Panel();
+	Panel pnlLast = new Panel();
 	Button btnNew = new Button("Add new question");
 	Button btnTerminate = new Button("Terminate MCQ");
-	Panel pnlTerminate = new Panel();
-	
+
 	Sheet sheet = new Sheet();
 
-	private SheetFrame(JDialog dialog) {
-		super(dialog, "Session Creation", true);
-		initialize();
-	}
+	public ScrollPaneTest() {
+		setPreferredSize(new Dimension(600, 480));
 
-	private SheetFrame(JDialog dialog, Sheet sheet) {
-		super(dialog, "Session Creation", true);
-		this.sheet = sheet;
 		initialize();
 	}
 
@@ -47,13 +41,12 @@ public class SheetFrame extends JDialog {
 
 		setSize(600, 480);
 
+		pnlLast.setLayout(null);
 		btnNew.setBounds(6, 6, 150, 20);
-		pnlNew.add(btnNew);
-
 		btnTerminate.setBounds(300, 6, 150, 20);
-		pnlTerminate.setLayout(null);
-		pnlTerminate.add(btnTerminate);
-		
+		pnlLast.add(btnNew);
+		pnlLast.add(btnTerminate);
+
 		initializeNew();
 		initializeTerminate();
 		update();
@@ -67,17 +60,18 @@ public class SheetFrame extends JDialog {
 				int num = sheet.getQuestions().size() + 1;
 				sheet.add(QuestionFrame.create(tmp, num));
 				update();
+				scrSheet.scrollToBottom();
 			}
 		});
 	}
-	
+
 	void initializeTerminate() {
 		JDialog tmp = this;
 		btnTerminate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String sheetId = ConnexionFrame.ask(tmp); 
-				//ask to server for sheetId
+				String sheetId = ConnexionFrame.ask(tmp);
+				// ask to server for sheetId
 				tmp.setVisible(false);
 				tmp.dispose();
 			}
@@ -85,9 +79,11 @@ public class SheetFrame extends JDialog {
 	}
 
 	void update() {
+		remove(scrSheet);
+		setLayout(new BorderLayout());
+
 		pnlSheet = new Panel();
 		pnlSheet.setLayout(null);
-		setContentPane(pnlSheet);
 
 		int y = 6;
 		for (Question question : sheet.getQuestions()) {
@@ -97,16 +93,19 @@ public class SheetFrame extends JDialog {
 			pnlSheet.add(tmpPanel);
 		}
 
-		pnlNew.setBounds(12, y, btnNew.getWidth() + 12, btnNew.getHeight() + 12);
-		y += pnlNew.getHeight();
-		pnlSheet.add(pnlNew);
-		
-		pnlTerminate.setBounds(12, y, btnTerminate.getX() + btnTerminate.getWidth() + 12, btnTerminate.getHeight() + 12);
-		pnlSheet.add(pnlTerminate);
-		
+		pnlLast.setBounds(12, y, btnTerminate.getX() + btnTerminate.getWidth() + 12,
+				btnTerminate.getHeight() + 62);
+		y += pnlLast.getHeight();
+		pnlSheet.add(pnlLast);
+
+		pnlSheet.setPreferredSize(new Dimension(550, y));
+
 		scrSheet = new ScrollPanel(pnlSheet);
-		setContentPane(scrSheet);
-		
+		add(scrSheet, BorderLayout.CENTER);
+
+		setPreferredSize(new Dimension(600, 480));
+		pack();
+
 		revalidate();
 	}
 
@@ -131,10 +130,11 @@ public class SheetFrame extends JDialog {
 		panel.setSize(this.getWidth() - 24, y);
 		return panel;
 	}
+}
 
-	public static void show(JDialog dialog) {
-		SheetFrame sheet = new SheetFrame(dialog);
-		sheet.setLocationRelativeTo(dialog);
-		sheet.setVisible(true);
+class Panneau extends JPanel {
+
+	public Panneau() {
+		setPreferredSize(new Dimension(2000, 1000));
 	}
 }
