@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +9,7 @@ import javax.swing.JDialog;
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
+import Controls.ScrollPanel;
 import Controls.TextField;
 import Models.Answer;
 import Models.Question;
@@ -19,20 +19,23 @@ import Models.Sheet;
 // edit all questions, add new, etc.
 public class SheetFrame extends JDialog {
 
-	Panel pnlSheet;
+	Panel pnlSheet = new Panel();
+	ScrollPanel scrSheet = new ScrollPanel(null);
+	Panel pnlInside = new Panel();
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
-	Panel pnlNew = new Panel();
+	Panel pnlLast = new Panel();
 	Button btnNew = new Button("Add new question");
+	Button btnTerminate = new Button("Terminate MCQ");
 
 	Sheet sheet = new Sheet();
 
-	private SheetFrame(JDialog dialog) {
-		super(dialog, "Session Creation", true);
+	public SheetFrame(JDialog dialog) {
+		super(dialog, "Sheet", true);
 		initialize();
 	}
 
 	private SheetFrame(JDialog dialog, Sheet sheet) {
-		super(dialog, "Session Creation", true);
+		super(dialog, "Sheet", true);
 		this.sheet = sheet;
 		initialize();
 	}
@@ -41,12 +44,17 @@ public class SheetFrame extends JDialog {
 		sheet.add(new Question("TEST QUESTION", new Answer("ABC", false), new Answer("DEF", false),
 				new Answer("GHI", false), new Answer("JKL", false)));
 
-		setSize(600, 480);
+		setPreferredSize(new Dimension(600, 480));
 
+		pnlLast.setLayout(null);
 		btnNew.setBounds(6, 6, 150, 20);
-		pnlNew.add(btnNew);
+		btnTerminate.setBounds(362, 6, 150, 20);
+		pnlLast.add(btnNew);
+		pnlLast.add(btnTerminate);
+		pack();
 
 		initializeNew();
+		initializeTerminate();
 		update();
 	}
 
@@ -55,16 +63,43 @@ public class SheetFrame extends JDialog {
 		btnNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sheet.add(QuestionFrame.create(tmp));
+				int num = sheet.getQuestions().size() + 1;
+				sheet.add(QuestionFrame.create(tmp, num));
+				update();
+				scrSheet.scrollToBottom();
+			}
+		});
+	}
+
+	void initializeTerminate() {
+		JDialog tmp = this;
+		btnTerminate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String sheetId = ConnexionFrame.ask(tmp);
+				// ask to server for sheetId
+				tmp.setVisible(false);
+				tmp.dispose();
+			}
+		});
+	}
+	
+	void initializeDelete(Button btnDelete, int numQuestion) {
+		btnDelete.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sheet.removeAt(numQuestion - 1);
 				update();
 			}
 		});
 	}
 
 	void update() {
+		remove(scrSheet);
+		setLayout(new BorderLayout());
+
 		pnlSheet = new Panel();
 		pnlSheet.setLayout(null);
-		setContentPane(pnlSheet);
 
 		int y = 6;
 		for (Question question : sheet.getQuestions()) {
@@ -74,9 +109,18 @@ public class SheetFrame extends JDialog {
 			pnlSheet.add(tmpPanel);
 		}
 
-		pnlNew.setBounds(12, y, btnNew.getWidth() + 12, btnNew.getHeight() + 12);
-		pnlSheet.add(pnlNew);
-		
+		pnlLast.setBounds(6, y, btnTerminate.getX() + btnTerminate.getWidth() + 12, btnTerminate.getHeight() + 62);
+		y += pnlLast.getHeight();
+		pnlSheet.add(pnlLast);
+
+		pnlSheet.setPreferredSize(new Dimension(550, y));
+
+		scrSheet = new ScrollPanel(pnlSheet);
+		add(scrSheet, BorderLayout.CENTER);
+
+		setPreferredSize(new Dimension(600, 480));
+		pack();
+
 		revalidate();
 	}
 
@@ -86,9 +130,14 @@ public class SheetFrame extends JDialog {
 
 		TextField txtQuestion = new TextField(question.text);
 		txtQuestion.setEditable(false);
-		txtQuestion.setBounds(6, 6, 400, 30);
+		txtQuestion.setBounds(6, 6, 400, 20);
 		txtQuestion.setLocation(6, 6);
 		panel.add(txtQuestion);
+		
+		Button btnDelete = new Button("Delete");
+		btnDelete.setBounds(412, 6, 100, 20);
+		initializeDelete(btnDelete, question.numQuestion);
+		panel.add(btnDelete);
 
 		int y = txtQuestion.getY() + txtQuestion.getHeight() + 6;
 		for (Answer answer : question.answers) {
@@ -103,8 +152,14 @@ public class SheetFrame extends JDialog {
 	}
 
 	public static void show(JDialog dialog) {
-		SheetFrame sheet = new SheetFrame(dialog);
-		sheet.setLocationRelativeTo(dialog);
-		sheet.setVisible(true);
+		SheetFrame sheetFrame = new SheetFrame(dialog);
+		sheetFrame.setLocationRelativeTo(dialog);
+		sheetFrame.setVisible(true);
+	}
+
+	public static void edit(JDialog dialog, Sheet sheet) {
+		SheetFrame sheetFrame = new SheetFrame(dialog, sheet);
+		sheetFrame.setLocationRelativeTo(dialog);
+		sheetFrame.setVisible(true);
 	}
 }

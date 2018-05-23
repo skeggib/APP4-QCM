@@ -2,6 +2,7 @@ package Models;
 
 public class Question {
 
+	public int numQuestion;
 	public String text;
 	public Answer[] answers = new Answer[4];
 	

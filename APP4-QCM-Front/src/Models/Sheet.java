@@ -9,7 +9,7 @@ public class Sheet {
 	ArrayList<Question> questions = new ArrayList<Question>();
 
 	public Sheet() {
-		
+
 	}
 
 	public Sheet(ArrayList<Question> questions) {
@@ -25,6 +25,19 @@ public class Sheet {
 				return;
 
 		questions.add(question);
+		refreshNumQuestions();
+	}
+
+	public void removeAt(int i) {
+		questions.remove(i);
+		refreshNumQuestions();
+	}
+
+	public void refreshNumQuestions() {
+		int i = 1;
+		for (Question question : questions) {
+			question.numQuestion = i++;
+		}
 	}
 
 	public ArrayList<Question> getQuestions() {
