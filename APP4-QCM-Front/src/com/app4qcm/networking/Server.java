@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.database.Statistics;
 import com.app4qcm.serialization.XML_Tools;
 
 public class Server {
@@ -146,8 +147,8 @@ public class Server {
 
 	}
 	
-	public void sendResponse(int rep1, int rep2, int rep3, int rep4) throws IOException, NotConnected, UnrecognizedResponse, InvalidParameter, NoQuestionAvailable {
-		String response = send("send_response " + Integer.toString(rep1) +Integer.toString(rep2)+Integer.toString(rep3)+Integer.toString(rep4) );
+	public void sendResponse(boolean rep1, boolean rep2, boolean rep3, boolean rep4) throws IOException, NotConnected, UnrecognizedResponse, InvalidParameter, NoQuestionAvailable {
+		String response = send("send_response " + (rep1 ? "1" : "0") + (rep2 ? "1" : "0") + (rep3 ? "1" : "0") + (rep4 ? "1" : "0"));
 		System.out.println("Response: " + response);
 		if (response.equals("ok"))
 			return;
@@ -161,4 +162,32 @@ public class Server {
 			throw new UnrecognizedResponse();
 
 	}
+	
+	public Statistics getStats(int numero) throws IOException, NotConnected, UnrecognizedResponse, InvalidQuestionNumber {
+		String response = send("get_stats " + Integer.toString(numero));
+		System.out.println("Response: " + response);
+		String result=response.split(" ")[0];
+		if (result.equals("ok")){
+			int i=0;
+			int cpt=0;
+			do{
+				i++;
+				if (response.charAt(i)!=' ')
+					cpt++;
+			}
+			while (i<(response.length()-1) && cpt<1);
+			String xml=response.substring(i+1);
+			Statistics statistics=(Statistics) XML_Tools.decodeFromString(xml);
+			statistics.question.setId_q(numero);
+			return statistics;
+		}
+		if (result.equals("not_connected"))
+			throw new NotConnected();
+		if (result.equals("invalid_question"))
+			throw new InvalidQuestionNumber();
+		else
+			throw new UnrecognizedResponse();
+
+	}
+
 }

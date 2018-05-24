@@ -27,16 +27,20 @@ public class Logic {
 		public Session session;
 		public ClientConnection prof;
 		public HashMap<String, ClientConnection> eleves;
+		public ArrayList<HashMap<ClientConnection, boolean[]>> responses; 
 		public int currentQuestionIndex = -1;
 		
-		public RunningSession() {
+		private RunningSession() {
 			this.eleves = new HashMap<>();
+			this.responses = new ArrayList<>();
 		}
 		
 		public RunningSession(Session session, ClientConnection prof) {
 			this();
 			this.session = session;
 			this.prof = prof;
+			for (Question question : this.session.getQuestions())
+				this.responses.add(new HashMap<>());
 		}
 	}
 	
@@ -122,6 +126,8 @@ public class Logic {
 				return get_question(client);
 			case "get_session":
 				return get_session(client);
+			case "send_response":
+				return send_response(client, reste);
 		}
 		
 		return "fatal_error";
@@ -271,6 +277,24 @@ public class Logic {
 		if (running == null)
 			return "not_connected";
 		return "ok " + XML_Tools.encodeToString(running.session).replace("\n", "").replace("\r", "");
+	}
+	
+	private String send_response(ClientConnection eleve, String param) {
+		RunningSession running = getRunningSessionByEleve(eleve);
+		if (running == null)
+			return "not_connected";
+		if (running.currentQuestionIndex == -1)
+			return "no_question";
+		if (param.length() != 4)
+			return "invalid_parameter";
+		
+		boolean[] responses = new boolean[4];
+		for (int i = 0; i < 4; ++i)
+			responses[i] = param.charAt(i) == '1';
+		
+		running.responses.get(running.currentQuestionIndex).put(eleve, responses);
+		
+		return "ok";
 	}
 
 }
