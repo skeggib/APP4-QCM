@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import com.app4qcm.database.Session;
 import com.app4qcm.serialization.XML_Tools;
@@ -16,6 +17,10 @@ public class Server {
 
 	public Server(InetAddress address) {
 		this.address = address;
+	}
+	
+	public Server() throws UnknownHostException {
+		this(InetAddress.getLocalHost());
 	}
 
 	public void connect() throws IOException {
