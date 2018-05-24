@@ -108,7 +108,7 @@ public class Server {
 					cpt++;
 			}
 			while (i<(response.length()-1) && cpt<2);
-			String xml=response.substring(i);
+			String xml=response.substring(i+1);
 			Question question=(Question) XML_Tools.decodeFromString(xml);
 			question.setId_q(num);
 			return question;
