@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.networking.InvalidParameter;
 import com.app4qcm.networking.InvalidQuestionNumber;
 import com.app4qcm.networking.InvalidSessionName;
 import com.app4qcm.networking.NoQuestionAvailable;
@@ -83,6 +84,28 @@ public class TestClient {
 					} catch (NotConnected | UnrecognizedResponse e) {
 						e.printStackTrace();
 					}
+					break;
+				case "send_response":
+					try {
+						server.sendResponse(true, false, false, false);
+					} catch (NotConnected | UnrecognizedResponse | InvalidParameter | NoQuestionAvailable e) {
+						e.printStackTrace();
+					}
+					break;
+				case "get_stats":
+					try {
+						server.getStats(1);
+					} catch (NotConnected | UnrecognizedResponse | InvalidQuestionNumber e) {
+						e.printStackTrace();
+					}
+					break;
+				case "close_session":
+					try {
+						server.closeSession();
+					} catch (UnrecognizedResponse | NotConnected e) {
+						e.printStackTrace();
+					}
+					break;
 				}
 			}
 			server.close();

@@ -22,7 +22,7 @@ import Utilities.MessageUtilities;
 // edit all questions, add new, etc.
 public class TestFrame extends JDialog {
 	private static final long serialVersionUID = 8604456235363770057L;
-	
+
 	Panel pnlSession = new Panel();
 	ScrollPanel scrSession = new ScrollPanel(null);
 	Panel pnlInside = new Panel();
@@ -93,8 +93,9 @@ public class TestFrame extends JDialog {
 		pnlSession.setLayout(null);
 
 		int y = 6;
+		int i = 0;
 		for (Question question : session.getQuestions()) {
-			Panel tmpPanel = create(question);
+			Panel tmpPanel = create(question, i++);
 			tmpPanel.setLocation(6, y);
 			y += tmpPanel.getHeight();
 			pnlSession.add(tmpPanel);
@@ -111,11 +112,11 @@ public class TestFrame extends JDialog {
 		revalidate();
 	}
 
-	Panel create(Question question) {
+	Panel create(Question question, int index) {
 		Panel panel = new Panel();
 		panel.setLayout(null);
 
-		TextField txtQuestion = new TextField(question.getRep1());
+		TextField txtQuestion = new TextField(question.getTxt_quest());
 		txtQuestion.setEditable(false);
 		txtQuestion.setBounds(6, 6, 400, 20);
 		txtQuestion.setLocation(6, 6);
@@ -123,17 +124,17 @@ public class TestFrame extends JDialog {
 
 		Button btnStart = new Button("Start");
 		btnStart.setBounds(412, 6, 100, 20);
-		initializeStart(btnStart, question.getId_q());
+		initializeStart(btnStart, index);
 		panel.add(btnStart);
 
 		Button btnStop = new Button("Stop");
 		btnStop.setBounds(412, 32, 100, 20);
-		initializeStart(btnStop, question.getId_q());
+		initializeStart(btnStop, index);
 		panel.add(btnStop);
 
 		Button btnStats = new Button("Stats");
 		btnStats.setBounds(412, 58, 100, 20);
-		initializeStart(btnStats, question.getId_q());
+		initializeStart(btnStats, index);
 		panel.add(btnStats);
 
 		int y = txtQuestion.getY() + txtQuestion.getHeight() + 6;
@@ -150,14 +151,6 @@ public class TestFrame extends JDialog {
 
 	public static void show(JDialog dialog, Session session) {
 		TestFrame testFrame = new TestFrame(dialog, session);
-		
-		try {
-			SessionController.start(session.getName());
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
-
 		testFrame.setLocationRelativeTo(dialog);
 		testFrame.setVisible(true);
 	}

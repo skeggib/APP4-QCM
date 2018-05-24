@@ -14,7 +14,7 @@ public class MessageUtilities {
 		case "com.app4qcm.networking.NotConnected":
 			showError("Not connected to server", "Error Server");
 			break;
-		
+
 		case "com.app4qcm.networking.InvalidSessionName":
 			showError("Invalid Session Name", "Error Session");
 			break;
@@ -27,11 +27,14 @@ public class MessageUtilities {
 		case "com.app4qcm.networking.SessionAlreadyStarted":
 			showError("Session is already started.", "Error Session");
 			break;
-			
+
 		case "com.app4qcm.networking.NoQuestionAvailable":
-		showError("No question available.", "Error Question");
-		break;
-		
+			showError("No question available.", "Error Question");
+			break;
+		case "com.app4qcm.networking.InvalidQuestionNumber":
+			showError("Question not found.", "Error Question");
+			break;
+
 		case "java.io.IOException":
 		case "java.net.SocketException":
 		case "java.net.ConnectException":

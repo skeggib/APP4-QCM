@@ -1,5 +1,6 @@
 package com.app4qcm.logic;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map.Entry;
 import com.app4qcm.database.Context;
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.database.Statistics;
 import com.app4qcm.networking.ClientConnection;
 import com.app4qcm.serialization.XML_Tools;
 
@@ -27,16 +29,20 @@ public class Logic {
 		public Session session;
 		public ClientConnection prof;
 		public HashMap<String, ClientConnection> eleves;
+		public ArrayList<HashMap<ClientConnection, boolean[]>> responses; 
 		public int currentQuestionIndex = -1;
 		
-		public RunningSession() {
+		private RunningSession() {
 			this.eleves = new HashMap<>();
+			this.responses = new ArrayList<>();
 		}
 		
 		public RunningSession(Session session, ClientConnection prof) {
 			this();
 			this.session = session;
 			this.prof = prof;
+			for (Question question : this.session.getQuestions())
+				this.responses.add(new HashMap<>());
 		}
 	}
 	
@@ -122,6 +128,12 @@ public class Logic {
 				return get_question(client);
 			case "get_session":
 				return get_session(client);
+			case "send_response":
+				return send_response(client, reste);
+			case "get_stats":
+				return get_stats(client, reste);
+			case "close_session":
+				return close_session(client);
 		}
 		
 		return "fatal_error";
@@ -271,6 +283,70 @@ public class Logic {
 		if (running == null)
 			return "not_connected";
 		return "ok " + XML_Tools.encodeToString(running.session).replace("\n", "").replace("\r", "");
+	}
+	
+	private String send_response(ClientConnection eleve, String param) {
+		RunningSession running = getRunningSessionByEleve(eleve);
+		if (running == null)
+			return "not_connected";
+		if (running.currentQuestionIndex == -1)
+			return "no_question";
+		if (param.length() != 4)
+			return "invalid_parameter";
+		
+		boolean[] responses = new boolean[4];
+		for (int i = 0; i < 4; ++i)
+			responses[i] = param.charAt(i) == '1';
+		
+		running.responses.get(running.currentQuestionIndex).put(eleve, responses);
+		
+		return "ok";
+	}
+	
+	private String getEleveName(ClientConnection client, RunningSession runningSession) {
+		for (Entry<String, ClientConnection> entry : runningSession.eleves.entrySet()) {
+			if (entry.getValue() == client)
+				return entry.getKey();
+		}
+		return null;
+	}
+	
+	private String get_stats(ClientConnection prof, String param) {
+		RunningSession running = getRunningSessionByProf(prof);
+		if (running == null)
+			return "not_connected";
+		if (param == null)
+			return "invalid_question";
+		int numQuestion;
+		try  { 
+			numQuestion = Integer.parseInt(param.trim()); 
+		} 
+		catch (NumberFormatException nfe) { 
+			return "invalid_question";
+		}
+		if (numQuestion < 0 || numQuestion > running.session.getQuestions().size() - 1)
+			return "invalid_question";
+		
+		Statistics stats = new Statistics();
+		stats.question = running.session.getQuestions().get(numQuestion);
+		stats.question.setId_q(numQuestion);
+		stats.responses = new HashMap<>();
+		for (HashMap<ClientConnection, boolean[]> map : running.responses) {
+			for (Entry<ClientConnection, boolean[]> entry : map.entrySet()) {
+				String name = getEleveName(entry.getKey(), running);
+				stats.responses.put(name, entry.getValue());
+			}
+		}
+		
+		return "ok " + XML_Tools.encodeToString(stats).replace("\n", "").replace("\r", "");
+	}
+	
+	private String close_session(ClientConnection prof) {
+		RunningSession running = getRunningSessionByProf(prof);
+		if (running == null)
+			return "not_connected";
+		this.runningSessions.remove(running.session.getName());
+		return "ok";
 	}
 
 }
