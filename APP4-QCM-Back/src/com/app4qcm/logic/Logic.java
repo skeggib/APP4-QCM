@@ -132,6 +132,8 @@ public class Logic {
 				return send_response(client, reste);
 			case "get_stats":
 				return get_stats(client, reste);
+			case "close_session":
+				return close_session(client);
 		}
 		
 		return "fatal_error";
@@ -337,6 +339,14 @@ public class Logic {
 		}
 		
 		return "ok " + XML_Tools.encodeToString(stats).replace("\n", "").replace("\r", "");
+	}
+	
+	private String close_session(ClientConnection prof) {
+		RunningSession running = getRunningSessionByProf(prof);
+		if (running == null)
+			return "not_connected";
+		this.runningSessions.remove(running.session.getName());
+		return "ok";
 	}
 
 }

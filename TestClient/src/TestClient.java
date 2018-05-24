@@ -98,6 +98,14 @@ public class TestClient {
 					} catch (NotConnected | UnrecognizedResponse | InvalidQuestionNumber e) {
 						e.printStackTrace();
 					}
+					break;
+				case "close_session":
+					try {
+						server.closeSession();
+					} catch (UnrecognizedResponse | NotConnected e) {
+						e.printStackTrace();
+					}
+					break;
 				}
 			}
 			server.close();
