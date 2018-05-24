@@ -122,5 +122,29 @@ public class Server {
 
 	}
 	
+	public Session getSession() throws IOException, NotConnected, UnrecognizedResponse, NoQuestionAvailable {
+		String response = send("get_session ");
+		System.out.println("Response: " + response);
+		String result=response.split(" ")[0];
+		if (result.equals("ok")){
+			int i=0;
+			int cpt=0;
+			do{
+				i++;
+				if (response.charAt(i)!=' ')
+					cpt++;
+			}
+			while (i<(response.length()-1) && cpt<1);
+			String xml=response.substring(i+1);
+			Session session=(Session) XML_Tools.decodeFromString(xml);
+			return session;
+		}
+		if (result.equals("not_connected"))
+			throw new NotConnected();
+		else
+			throw new UnrecognizedResponse();
+
+	}
+	
 	
 }
