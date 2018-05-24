@@ -1,5 +1,7 @@
 package Controllers;
 
+import java.io.IOException;
+
 import com.app4qcm.networking.Server;
 
 import Utilities.MessageUtilities;
@@ -20,5 +22,16 @@ public abstract class AbstractController {
 		}
 
 		return server;
+	}
+
+	public static void closeServer() {
+		if (server == null)
+			return;
+
+		try {
+			server.close();
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+		}
 	}
 }

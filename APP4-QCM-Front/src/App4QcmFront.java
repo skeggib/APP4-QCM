@@ -13,6 +13,8 @@ public class App4QcmFront {
 		mainMenu.setLocationRelativeTo(null);
 		mainMenu.setVisible(true);
 		System.exit(0);
+
+		AbstractController.closeServer();
 	}
 
 }
