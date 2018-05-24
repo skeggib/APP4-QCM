@@ -187,7 +187,18 @@ public class Server {
 			throw new InvalidQuestionNumber();
 		else
 			throw new UnrecognizedResponse();
-
+ 
+	}
+	
+	public void closeSession() throws IOException, UnrecognizedResponse, NotConnected {
+		String response = send("close_session ");
+		System.out.println("Response: " + response);
+		if (response.equals("ok"))
+			return;
+		if (response.equals("not_connected"))
+			throw new NotConnected();
+		else
+			throw new UnrecognizedResponse();
 	}
 
 }
