@@ -110,16 +110,18 @@ public class Logic {
 			reste=str.substring(i+1);
 		
 		switch(fonction) {
-		  case "create_session":	
-			  return create_session(reste);
-		  case "start_session":
-			  return start_session(client,reste);
-		  case "join_session":
-			  return join_session(client,reste);
-		  case "send_question":
-			  return send_question(client, reste);
-		  case "get_question":
-			  return get_question(client);
+			case "create_session":	
+				return create_session(reste);
+			case "start_session":
+				return start_session(client,reste);
+			case "join_session":
+				return join_session(client,reste);
+			case "send_question":
+				return send_question(client, reste);
+			case "get_question":
+				return get_question(client);
+			case "get_session":
+				return get_session(client);
 		}
 		
 		return "fatal_error";
@@ -264,6 +266,11 @@ public class Logic {
 		return "ok";
 	}
 	
-	
+	private String get_session(ClientConnection prof) {
+		RunningSession running = getRunningSessionByProf(prof);
+		if (running == null)
+			return "not_connected";
+		return "ok " + XML_Tools.encodeToString(running.session).replace("\n", "").replace("\r", "");
+	}
 
 }

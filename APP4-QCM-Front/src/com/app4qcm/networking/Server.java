@@ -122,7 +122,7 @@ public class Server {
 
 	}
 	
-	public Session getSession() throws IOException, NotConnected, UnrecognizedResponse, NoQuestionAvailable {
+	public Session getSession() throws IOException, NotConnected, UnrecognizedResponse {
 		String response = send("get_session ");
 		System.out.println("Response: " + response);
 		String result=response.split(" ")[0];
