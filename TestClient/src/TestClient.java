@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.networking.InvalidQuestionNumber;
 import com.app4qcm.networking.InvalidSessionName;
+import com.app4qcm.networking.NotConnected;
 import com.app4qcm.networking.Server;
 import com.app4qcm.networking.SessionNameAlreadyUsed;
 import com.app4qcm.networking.UnrecognizedResponse;
@@ -41,6 +43,13 @@ public class TestClient {
 					try {
 						server.createSession(create_session());
 					} catch (InvalidSessionName | SessionNameAlreadyUsed | UnrecognizedResponse e) {
+						e.printStackTrace();
+					}
+					break;
+				case "send_question":
+					try {
+						server.sendQuestion(1);
+					} catch (NotConnected | InvalidQuestionNumber | UnrecognizedResponse e) {
 						e.printStackTrace();
 					}
 					break;

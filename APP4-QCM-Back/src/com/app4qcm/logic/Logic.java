@@ -50,7 +50,7 @@ public class Logic {
 		String reste="";
 
 		//Suite du texte recupere
-		if ((i+1)<str.length()-1)
+		if ((i+1)<str.length())
 			reste=str.substring(i+1);
 		
 		switch(fonction) {
@@ -87,7 +87,7 @@ public class Logic {
 		// TODO Auto-generated method stub
 		try 
 		{ 
-			int numQuestion = Integer.parseInt(reste); 
+			int numQuestion = Integer.parseInt(reste.trim()); 
 		} 
 		catch (NumberFormatException nfe) 
 		{ 
@@ -111,7 +111,6 @@ public class Logic {
 		else{
 			//Verification que le nom n est pas vide
 			if(session.getName().trim().isEmpty()) {
-					System.out.println("cas1");
 					return "invalid_name";
 			}
 			return "ok";
