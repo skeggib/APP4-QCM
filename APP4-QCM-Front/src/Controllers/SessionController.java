@@ -8,6 +8,7 @@ import com.app4qcm.networking.NotConnected;
 import com.app4qcm.networking.SessionAlreadyStarted;
 import com.app4qcm.networking.SessionNameAlreadyUsed;
 import com.app4qcm.networking.SessionNotFound;
+import com.app4qcm.networking.StudentNameAlreadyUsed;
 import com.app4qcm.networking.UnrecognizedResponse;
 
 public final class SessionController extends AbstractController {
@@ -20,7 +21,11 @@ public final class SessionController extends AbstractController {
 		getServer().startSession(nomSession);
 	}
 	
-	public static void join(String nomSession, String nomEleve) throws IOException, UnrecognizedResponse, SessionNotFound {
+	public static void close() throws IOException, UnrecognizedResponse, NotConnected {
+		getServer().closeSession();
+	}
+	
+	public static void join(String nomSession, String nomEleve) throws IOException, UnrecognizedResponse, SessionNotFound, StudentNameAlreadyUsed {
 		getServer().joinSession(nomSession, nomEleve);
 	}
 	

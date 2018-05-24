@@ -153,5 +153,10 @@ public class TestFrame extends JDialog {
 		TestFrame testFrame = new TestFrame(dialog, session);
 		testFrame.setLocationRelativeTo(dialog);
 		testFrame.setVisible(true);
+		try {
+			SessionController.close();
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+		}
 	}
 }

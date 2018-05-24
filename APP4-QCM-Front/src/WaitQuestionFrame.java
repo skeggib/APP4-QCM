@@ -5,9 +5,11 @@ import javax.swing.JDialog;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.networking.NoQuestionAvailable;
+import com.app4qcm.networking.StudentNameAlreadyUsed;
 
 import Controllers.QuestionController;
 import Controllers.SessionController;
+import Controllers.StatsController;
 import Controls.Button;
 import Controls.Panel;
 import Utilities.MessageUtilities;
@@ -61,6 +63,12 @@ public class WaitQuestionFrame extends JDialog {
 
 				if (question != null) {
 					QuestionFrame.show(tmp, question);
+				} else {
+					try {
+						StatsFrame.show(tmp, StatsController.get(previousQuestionId));
+					} catch (Exception ex) {
+						MessageUtilities.showError(ex);
+					}
 				}
 
 			}
@@ -70,12 +78,19 @@ public class WaitQuestionFrame extends JDialog {
 	public static void show(JDialog dialog, String sessionName) {
 		WaitQuestionFrame waitQuestion = new WaitQuestionFrame(dialog);
 
-		try {
-			SessionController.join(sessionName, ConnexionFrame.ask(dialog));
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
+		boolean isConnected = false;
+
+		do {
+			try {
+				SessionController.join(sessionName, ConnexionFrame.ask(dialog));
+				isConnected = true;
+			} catch (StudentNameAlreadyUsed snau) {
+				MessageUtilities.showError(snau);
+			} catch (Exception ex) {
+				MessageUtilities.showError(ex);
+				return;
+			}
+		} while (!isConnected);
 
 		waitQuestion.setLocationRelativeTo(dialog);
 		waitQuestion.setVisible(true);

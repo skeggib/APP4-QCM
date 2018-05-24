@@ -16,10 +16,10 @@ public class MessageUtilities {
 			break;
 
 		case "com.app4qcm.networking.InvalidSessionName":
-			showError("Invalid Session Name", "Error Session");
+			showError("Invalid session name", "Error Session");
 			break;
 		case "com.app4qcm.networking.SessionNameAlreadyUsed":
-			showError("Session Name Already used", "Error Session");
+			showError("Session name already used", "Error Session");
 			break;
 		case "com.app4qcm.networking.SessionNotFound":
 			showError("Session not found.", "Error Session");
@@ -27,7 +27,9 @@ public class MessageUtilities {
 		case "com.app4qcm.networking.SessionAlreadyStarted":
 			showError("Session is already started.", "Error Session");
 			break;
-
+		case "com.app4qcm.networking.StudentNameAlreadyUsed":
+			showError("Student name already used.", "Error Session");
+			break;
 		case "com.app4qcm.networking.NoQuestionAvailable":
 			showError("No question available.", "Error Question");
 			break;
