@@ -77,6 +77,12 @@ public class TestClient {
 						e.printStackTrace();
 					}
 					break;
+				case "get_session":
+					try {
+						server.getSession();
+					} catch (NotConnected | UnrecognizedResponse e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			server.close();
