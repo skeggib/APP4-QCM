@@ -84,10 +84,7 @@ public class MainMenuFrame extends JDialog {
 					return;
 				}
 
-				Session session = new Session();
-				session.add(new Question("Il est quelle heure ?", "L'heure du café.", "L'heure de manger.",
-						"L'heure du caca.", "L'heure de rentrer !", false, false, false, false));
-				// session = server.getSession()
+				Session session = server.getSession()
 
 				TestFrame.show(tmp, session);
 
@@ -105,7 +102,7 @@ public class MainMenuFrame extends JDialog {
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				WaitQuestionFrame.show(tmp);
+				WaitQuestionFrame.show(tmp, ConnexionFrame.ask(tmp));
 			}
 		});
 	}

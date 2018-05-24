@@ -11,6 +11,7 @@ public class Session {
 	private ArrayList<Question> questions;
 
 	public Session() {
+		questions = new ArrayList<Question>();
 	}
 	
 	public Session(String name) {

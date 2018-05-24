@@ -11,6 +11,10 @@ public class MessageUtilities {
 
 	public static void showError(Exception e) {
 		switch (e.getClass().getName()) {
+		case "com.app4qcm.networking.NotConnected":
+			showError("Not connected to server", "Error Server");
+			break;
+		
 		case "com.app4qcm.networking.InvalidSessionName":
 			showError("Invalid Session Name", "Error Session");
 			break;
@@ -20,6 +24,11 @@ public class MessageUtilities {
 		case "com.app4qcm.networking.SessionNotFound":
 			showError("Session not found.", "Error Session");
 			break;
+			
+		case "com.app4qcm.networking.NoQuestionAvailable":
+		showError("No question available.", "Error Question");
+		break;
+		
 		case "java.io.IOException":
 		case "java.net.SocketException":
 		case "java.net.ConnectException":
