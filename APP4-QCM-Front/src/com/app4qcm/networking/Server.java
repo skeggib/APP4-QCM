@@ -146,5 +146,19 @@ public class Server {
 
 	}
 	
-	
+	public void sendResponse(int rep1, int rep2, int rep3, int rep4) throws IOException, NotConnected, UnrecognizedResponse, InvalidParameter, NoQuestionAvailable {
+		String response = send("send_response " + Integer.toString(rep1) +Integer.toString(rep2)+Integer.toString(rep3)+Integer.toString(rep4) );
+		System.out.println("Response: " + response);
+		if (response.equals("ok"))
+			return;
+		if (response.equals("not_connected"))
+			throw new NotConnected();
+		if (response.equals("invalid_parameter"))
+			throw new InvalidParameter();
+		if (response.equals("no_question"))
+			throw new NoQuestionAvailable();
+		else
+			throw new UnrecognizedResponse();
+
+	}
 }
