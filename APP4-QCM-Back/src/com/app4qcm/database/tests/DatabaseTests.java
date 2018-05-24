@@ -1,10 +1,13 @@
 package com.app4qcm.database.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,9 +25,64 @@ public class DatabaseTests {
 		_context.reset();
 	}
 	
+	@After
+	public void after() throws SQLException {
+		_context.close();
+	}
+	
 	@Test
-	public void test() {
+	public void addSessionWithNoQuestions() throws SQLException {
+		Session session = new Session();
+		session.setName("Test session");
+		_context.addSession(session);
+		Session given = _context.getSession("Test session");
+		assertEquals(session.getName(), given.getName());
+	}
+	
+	@Test
+	public void addSessionWithNullName() throws SQLException {
+		Session session = new Session();
+		session.setName(null);
+		try {
+			_context.addSession(session);
+			fail();
+		} catch (NullPointerException e) {
+			
+		}
+	}
+	
+	@Test
+	public void addSessionWithQuestions() throws SQLException {
+		Session session = new Session();
+		session.setName("Test session");
+		ArrayList<Question> questions = new ArrayList<>();
+		questions.add(new Question("Q1 ?", "R1", true, "R2", false, "R3", false, "R4", false));
+		questions.add(new Question("Q2 ?", "R1", false, "R2", true, "R3", false, "R4", false));
+		session.setQuestions(questions);
+		_context.addSession(session);
+		Session given = _context.getSession("Test session");
+		assertEquals(session.getName(), given.getName());
+		assertEquals(session.getQuestions().size(), given.getQuestions().size());
 		
+		assertEquals(session.getQuestions().get(0).getTxt_quest(), given.getQuestions().get(0).getTxt_quest());
+		assertEquals(session.getQuestions().get(0).getRep1(), given.getQuestions().get(0).getRep1());
+		assertEquals(session.getQuestions().get(0).getCorrect1(), given.getQuestions().get(0).getCorrect1());
+		assertEquals(session.getQuestions().get(0).getRep2(), given.getQuestions().get(0).getRep2());
+		assertEquals(session.getQuestions().get(0).getCorrect2(), given.getQuestions().get(0).getCorrect2());
+		assertEquals(session.getQuestions().get(0).getRep3(), given.getQuestions().get(0).getRep3());
+		assertEquals(session.getQuestions().get(0).getCorrect3(), given.getQuestions().get(0).getCorrect3());
+		assertEquals(session.getQuestions().get(0).getRep4(), given.getQuestions().get(0).getRep4());
+		assertEquals(session.getQuestions().get(0).getCorrect4(), given.getQuestions().get(0).getCorrect4());
+		
+		assertEquals(session.getQuestions().get(1).getTxt_quest(), given.getQuestions().get(1).getTxt_quest());
+		assertEquals(session.getQuestions().get(1).getRep1(), given.getQuestions().get(1).getRep1());
+		assertEquals(session.getQuestions().get(1).getCorrect1(), given.getQuestions().get(1).getCorrect1());
+		assertEquals(session.getQuestions().get(1).getRep2(), given.getQuestions().get(1).getRep2());
+		assertEquals(session.getQuestions().get(1).getCorrect2(), given.getQuestions().get(1).getCorrect2());
+		assertEquals(session.getQuestions().get(1).getRep3(), given.getQuestions().get(1).getRep3());
+		assertEquals(session.getQuestions().get(1).getCorrect3(), given.getQuestions().get(1).getCorrect3());
+		assertEquals(session.getQuestions().get(1).getRep4(), given.getQuestions().get(1).getRep4());
+		assertEquals(session.getQuestions().get(1).getCorrect4(), given.getQuestions().get(1).getCorrect4());
 	}
 
 	/*@Test
