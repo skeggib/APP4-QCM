@@ -6,7 +6,8 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class ScrollPanel extends JScrollPane {
-	
+	private static final long serialVersionUID = -5691366576402289958L;
+
 	public ScrollPanel(Component component) {
 		super(component);
 		getVerticalScrollBar().setUnitIncrement(10);

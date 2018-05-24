@@ -1,18 +1,13 @@
 package Controls;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JTextField;
 
 public class TextField extends JTextField implements FocusListener {
-
+	private static final long serialVersionUID = -228157581277173049L;
+	
 	String originalText;
 
 	public TextField(String text) {

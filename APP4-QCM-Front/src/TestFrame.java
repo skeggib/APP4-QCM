@@ -2,19 +2,15 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
-import com.app4qcm.networking.InvalidQuestionNumber;
-import com.app4qcm.networking.NotConnected;
-import com.app4qcm.networking.Server;
-import com.app4qcm.networking.SessionAlreadyStarted;
-import com.app4qcm.networking.UnrecognizedResponse;
 
+import Controllers.QuestionController;
+import Controllers.SessionController;
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
@@ -25,15 +21,14 @@ import Utilities.MessageUtilities;
 // calls QuestionFrame (as teacher)
 // edit all questions, add new, etc.
 public class TestFrame extends JDialog {
-
+	private static final long serialVersionUID = 8604456235363770057L;
+	
 	Panel pnlSession = new Panel();
 	ScrollPanel scrSession = new ScrollPanel(null);
 	Panel pnlInside = new Panel();
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
 
 	Session session;
-
-	Server server;
 
 	private TestFrame(JDialog dialog, Session session) {
 		super(dialog, "Session", true);
@@ -54,7 +49,7 @@ public class TestFrame extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					server.sendQuestion(numQuestion);
+					QuestionController.send(numQuestion);
 				} catch (Exception ex) {
 					MessageUtilities.showError(ex);
 				}
@@ -68,7 +63,7 @@ public class TestFrame extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					server.sendQuestion(-1);
+					QuestionController.send(-1);
 				} catch (Exception ex) {
 					MessageUtilities.showError(ex);
 				}
@@ -155,23 +150,9 @@ public class TestFrame extends JDialog {
 
 	public static void show(JDialog dialog, Session session) {
 		TestFrame testFrame = new TestFrame(dialog, session);
-
+		
 		try {
-			testFrame.server = new Server();
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
-
-		try {
-			testFrame.server.connect();
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
-
-		try {
-			testFrame.server.startSession(session.getName());
+			SessionController.start(session.getName());
 		} catch (Exception ex) {
 			MessageUtilities.showError(ex);
 			return;
@@ -179,12 +160,5 @@ public class TestFrame extends JDialog {
 
 		testFrame.setLocationRelativeTo(dialog);
 		testFrame.setVisible(true);
-
-		try {
-			testFrame.server.close();
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
 	}
 }

@@ -12,7 +12,8 @@ import Controls.Panel;
 import Controls.TextField;
 
 public class ConnexionFrame extends JDialog {
-
+	private static final long serialVersionUID = 63917319005319122L;
+	
 	static TextField txtSession = new TextField("Enter your Session ID...");
 	Button btnCopy = new Button("Copy");
 	Button btnOK = new Button("OK");

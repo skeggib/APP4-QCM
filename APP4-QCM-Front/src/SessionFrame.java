@@ -2,21 +2,16 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
 import com.app4qcm.networking.InvalidSessionName;
-import com.app4qcm.networking.Server;
 import com.app4qcm.networking.SessionNameAlreadyUsed;
-import com.app4qcm.networking.UnrecognizedResponse;
 
+import Controllers.SessionController;
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
@@ -27,7 +22,8 @@ import Utilities.MessageUtilities;
 // calls QuestionFrame (as teacher)
 // edit all questions, add new, etc.
 public class SessionFrame extends JDialog {
-
+	private static final long serialVersionUID = 7541992681812691940L;
+	
 	Panel pnlSession = new Panel();
 	ScrollPanel scrSession = new ScrollPanel(null);
 	Panel pnlInside = new Panel();
@@ -81,28 +77,12 @@ public class SessionFrame extends JDialog {
 		btnTerminate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				Server server;
-				try {
-					server = new Server();
-				} catch (Exception ex) {
-					MessageUtilities.showError(ex);
-					return;
-				}
-
-				try {
-					server.connect();
-				} catch (Exception ex) {
-					MessageUtilities.showError(ex);
-					return;
-				}
-
 				boolean isCreated = false;
 				do {
 					session.setName(ConnexionFrame.ask(tmp));
 
 					try {
-						server.createSession(session);
+						SessionController.create(session);
 						isCreated = true;
 					} catch (InvalidSessionName | SessionNameAlreadyUsed se) {
 						MessageUtilities.showError(se);
@@ -114,7 +94,6 @@ public class SessionFrame extends JDialog {
 				} while (!isCreated);
 
 				tmp.setVisible(false);
-				tmp.dispose();
 			}
 		});
 	}
