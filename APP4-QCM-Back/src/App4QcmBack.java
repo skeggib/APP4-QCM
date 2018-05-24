@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
 import com.app4qcm.logic.Logic;
 import com.app4qcm.networking.ClientConnection;
@@ -10,7 +11,13 @@ public class App4QcmBack {
 
 	public static void main(String[] args) {
 		
-		Logic logic = new Logic();
+		Logic logic;
+		try {
+			logic = new Logic();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			return;
+		}
 
 		final ServerSocket service;
 		try {

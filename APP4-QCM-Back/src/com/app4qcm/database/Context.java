@@ -60,7 +60,7 @@ public class Context {
 	/**
 	 * Gets a session by name
 	 * @param name
-	 * @return
+	 * @return The session or null if the session was not found
 	 * @throws SQLException
 	 */
 	public Session getSession(String name) throws SQLException {
