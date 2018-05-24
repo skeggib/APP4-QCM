@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
 import com.app4qcm.serialization.XML_Tools;
 
@@ -53,11 +54,14 @@ public class Server {
 			throw new UnrecognizedResponse();
 	}
 
-	public void startSession(String nomSession) throws IOException, UnrecognizedResponse, SessionNotFound {
+	public void startSession(String nomSession) throws IOException, UnrecognizedResponse, SessionNotFound, SessionAlreadyStarted {
 		String response = send("start_session " + nomSession);
 		System.out.println("Response: " + response);
 		if (response.equals("ok"))
 			return;
+		if (response.equals("session_already_started")){
+			throw new SessionAlreadyStarted();
+		}
 		if (response.equals("session_not_found"))
 			throw new SessionNotFound();
 		else
@@ -90,11 +94,25 @@ public class Server {
 
 	}
 
-	public void getQuestion() throws IOException, NotConnected, UnrecognizedResponse, NoQuestionAvailable {
+	public Question getQuestion() throws IOException, NotConnected, UnrecognizedResponse, NoQuestionAvailable {
 		String response = send("get_question ");
 		System.out.println("Response: " + response);
-		if (response.equals("ok"))
-			return;
+		String result=response.split(" ")[0];
+		if (response.equals("ok")){
+			int num=Integer.parseInt(response.split(" ")[1]);
+			int i=0;
+			int cpt=0;
+			do{
+				i++;
+				if (response.charAt(i)!=' ')
+					cpt++;
+			}
+			while (i<(response.length()-1) && cpt<2);
+			String xml=response.substring(i);
+			Question question=(Question) XML_Tools.decodeFromString(xml);
+			question.setId_q(num);
+			return question;
+		}
 		if (response.equals("not_connected"))
 			throw new NotConnected();
 		if (response.equals("no_question"))
