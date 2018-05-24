@@ -146,8 +146,8 @@ public class Server {
 
 	}
 	
-	public void sendResponse(int rep1, int rep2, int rep3, int rep4) throws IOException, NotConnected, UnrecognizedResponse, InvalidParameter, NoQuestionAvailable {
-		String response = send("send_response " + Integer.toString(rep1) +Integer.toString(rep2)+Integer.toString(rep3)+Integer.toString(rep4) );
+	public void sendResponse(boolean rep1, boolean rep2, boolean rep3, boolean rep4) throws IOException, NotConnected, UnrecognizedResponse, InvalidParameter, NoQuestionAvailable {
+		String response = send("send_response " + (rep1 ? "1" : "0") + (rep2 ? "1" : "0") + (rep3 ? "1" : "0") + (rep4 ? "1" : "0"));
 		System.out.println("Response: " + response);
 		if (response.equals("ok"))
 			return;
