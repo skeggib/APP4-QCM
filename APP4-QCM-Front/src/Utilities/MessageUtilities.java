@@ -24,6 +24,9 @@ public class MessageUtilities {
 		case "com.app4qcm.networking.SessionNotFound":
 			showError("Session not found.", "Error Session");
 			break;
+		case "com.app4qcm.networking.SessionAlreadyStarted":
+			showError("Session is already started.", "Error Session");
+			break;
 			
 		case "com.app4qcm.networking.NoQuestionAvailable":
 		showError("No question available.", "Error Question");

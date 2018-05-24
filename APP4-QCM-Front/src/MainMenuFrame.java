@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.networking.NotConnected;
 import com.app4qcm.networking.Server;
 import com.app4qcm.networking.SessionNotFound;
 import com.app4qcm.networking.UnrecognizedResponse;
@@ -84,9 +85,15 @@ public class MainMenuFrame extends JDialog {
 					return;
 				}
 
-				Session session = server.getSession()
+				Session session = null;
+				try {
+					session = server.getSession();
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+				}
 
-				TestFrame.show(tmp, session);
+				if (session != null)
+					TestFrame.show(tmp, session);
 
 				try {
 					server.close();

@@ -12,6 +12,7 @@ import com.app4qcm.database.Session;
 import com.app4qcm.networking.InvalidQuestionNumber;
 import com.app4qcm.networking.NotConnected;
 import com.app4qcm.networking.Server;
+import com.app4qcm.networking.SessionAlreadyStarted;
 import com.app4qcm.networking.UnrecognizedResponse;
 
 import Controls.Button;
@@ -164,6 +165,13 @@ public class TestFrame extends JDialog {
 
 		try {
 			testFrame.server.connect();
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+			return;
+		}
+
+		try {
+			testFrame.server.startSession(session.getName());
 		} catch (Exception ex) {
 			MessageUtilities.showError(ex);
 			return;
