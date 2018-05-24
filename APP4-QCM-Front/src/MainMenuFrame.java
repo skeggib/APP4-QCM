@@ -1,13 +1,18 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JDialog;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.networking.Server;
+import com.app4qcm.networking.SessionNotFound;
+import com.app4qcm.networking.UnrecognizedResponse;
 
 import Controls.Button;
 import Controls.Panel;
+import Utilities.MessageUtilities;
 
 // start of application
 // calls ConnexionFrame, SessionCreationFrame and SessionFrame (as teacher), QuestionFrame (as student)
@@ -18,22 +23,9 @@ public class MainMenuFrame extends JDialog {
 	Button btnStart = new Button("Start session");
 	Button btnJoin = new Button("Join session");
 
-	Session testSession;
-
 	public MainMenuFrame() {
+		super(new JDialog(), "Main Menu", true);
 		initialize();
-
-		testSession = new Session();
-		testSession.add(new Question("Qui est le plus beau ?", "Séb, ça s'tient.", true, "Cyril, si 'real' !", true,
-				"Dimitri, dix mi-tris", true, "Maxime, c'est moi quoi", true));
-		testSession.add(new Question("Qui a travaillé sur le backend ?", "Séb, ça s'tient.", true, "Cyril, si 'real' !",
-				true, "Dimitri, dix mi-tris", false, "Maxime, c'est moi quoi", false));
-		testSession.add(new Question("Qui n'a pas travaillé sur le frontend ?", "Séb, ça s'tient.", true,
-				"Cyril, si 'real' !", true, "Dimitri, dix mi-tris", false, "Maxime, c'est moi quoi", false));
-		testSession.add(new Question("Qui a travaillé ?", "Séb, ça s'tient.", true, "Cyril, si 'real' !", true,
-				"Dimitri, dix mi-tris", true, "Maxime, c'est moi quoi", true));
-		testSession.add(new Question("Essaie de lécher ton coude.", "Trop facile !", false, "J'y suis presque !", false,
-				"C'est possible ?", false, "Bien sûr que non tout le monde sait ça...", true));
 	}
 
 	void initialize() {
@@ -60,7 +52,7 @@ public class MainMenuFrame extends JDialog {
 		btnCreate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SessionFrame.edit(tmp, testSession);
+				SessionFrame.show(tmp);
 			}
 		});
 	}
@@ -70,9 +62,40 @@ public class MainMenuFrame extends JDialog {
 		btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String sessionId = "GET FROM SERVER";
-				ConnexionFrame.show(tmp, sessionId);
-				TestFrame.show(tmp, testSession);
+				Server server;
+				try {
+					server = new Server();
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+					return;
+				}
+
+				try {
+					server.connect();
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+					return;
+				}
+
+				try {
+					server.startSession(ConnexionFrame.ask(tmp));
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+					return;
+				}
+
+				Session session = new Session();
+				session.add(new Question("Il est quelle heure ?", "L'heure du café.", "L'heure de manger.",
+						"L'heure du caca.", "L'heure de rentrer !", false, false, false, false));
+				// session = server.getSession()
+
+				TestFrame.show(tmp, session);
+
+				try {
+					server.close();
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+				}
 			}
 		});
 	}
@@ -82,8 +105,7 @@ public class MainMenuFrame extends JDialog {
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String sessionId = ConnexionFrame.ask(tmp);
-				// WaitQuestionFrame.show(sessionId);
+				WaitQuestionFrame.show(tmp);
 			}
 		});
 	}

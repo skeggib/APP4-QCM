@@ -12,13 +12,18 @@ public class MessageUtilities {
 	public static void showError(Exception e) {
 		switch (e.getClass().getName()) {
 		case "com.app4qcm.networking.InvalidSessionName":
-			showError("Invalid Session Name", "Session Name");
+			showError("Invalid Session Name", "Error Session");
 			break;
 		case "com.app4qcm.networking.SessionNameAlreadyUsed":
-			showError("Session Name Already used", "Session Name");
+			showError("Session Name Already used", "Error Session");
+			break;
+		case "com.app4qcm.networking.SessionNotFound":
+			showError("Session not found.", "Error Session");
 			break;
 		case "java.io.IOException":
-			showError("Failed to call Server", "Server Call");
+		case "java.net.SocketException":
+		case "java.net.ConnectException":
+			showError("Failed to call Server", "Error Server");
 			break;
 		case "java.net.UnknownHostException":
 		case "com.app4qcm.networking.UnrecognizedResponse":

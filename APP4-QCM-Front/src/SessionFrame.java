@@ -69,7 +69,6 @@ public class SessionFrame extends JDialog {
 		btnNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int num = session.getQuestions().size() + 1;
 				session.add(QuestionFrame.create(tmp));
 				update();
 				scrSession.scrollToBottom();
@@ -82,26 +81,38 @@ public class SessionFrame extends JDialog {
 		btnTerminate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				Server server;
-				try{
-					server = new Server(); 
-				}catch(UnknownHostException e1){ MessageUtilities.showError(e1); return; }
-				
-				try { server.connect(); } catch(IOException e2) { MessageUtilities.showError(e2); return; }
-				
+				try {
+					server = new Server();
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+					return;
+				}
+
+				try {
+					server.connect();
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+					return;
+				}
+
 				boolean isCreated = false;
-				
 				do {
-					
 					session.setName(ConnexionFrame.ask(tmp));
-					
-					try { server.createSession(session); isCreated = true; }
-					catch(InvalidSessionName | SessionNameAlreadyUsed nameEx ) { MessageUtilities.showError(nameEx); session.setName(ConnexionFrame.ask(tmp)); }
-					catch(Exception ex) { MessageUtilities.showError(ex); return; }
-					
+
+					try {
+						server.createSession(session);
+						isCreated = true;
+					} catch (InvalidSessionName | SessionNameAlreadyUsed se) {
+						MessageUtilities.showError(se);
+						session.setName(ConnexionFrame.ask(tmp));
+					} catch (Exception ex) {
+						MessageUtilities.showError(ex);
+						return;
+					}
 				} while (!isCreated);
-				
+
 				tmp.setVisible(false);
 				tmp.dispose();
 			}
