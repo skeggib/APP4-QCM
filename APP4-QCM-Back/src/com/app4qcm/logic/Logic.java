@@ -122,7 +122,7 @@ public class Logic {
 			  return get_question(client);
 		}
 		
-		return "error";
+		return "fatal_error";
 	}
 
 	private RunningSession getRunningSessionByEleve(ClientConnection eleve) {

@@ -98,7 +98,7 @@ public class Server {
 		String response = send("get_question ");
 		System.out.println("Response: " + response);
 		String result=response.split(" ")[0];
-		if (response.equals("ok")){
+		if (result.equals("ok")){
 			int num=Integer.parseInt(response.split(" ")[1]);
 			int i=0;
 			int cpt=0;
@@ -113,9 +113,9 @@ public class Server {
 			question.setId_q(num);
 			return question;
 		}
-		if (response.equals("not_connected"))
+		if (result.equals("not_connected"))
 			throw new NotConnected();
-		if (response.equals("no_question"))
+		if (result.equals("no_question"))
 			throw new NoQuestionAvailable();
 		else
 			throw new UnrecognizedResponse();

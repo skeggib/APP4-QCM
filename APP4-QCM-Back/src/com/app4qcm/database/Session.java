@@ -12,6 +12,11 @@ public class Session {
 
 	public Session() {
 	}
+	
+	public Session(String name) {
+		this();
+		setName(name);
+	}
 
 	public String getName() {
 		return name;

@@ -10,9 +10,12 @@ import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
 import com.app4qcm.networking.InvalidQuestionNumber;
 import com.app4qcm.networking.InvalidSessionName;
+import com.app4qcm.networking.NoQuestionAvailable;
 import com.app4qcm.networking.NotConnected;
 import com.app4qcm.networking.Server;
+import com.app4qcm.networking.SessionAlreadyStarted;
 import com.app4qcm.networking.SessionNameAlreadyUsed;
+import com.app4qcm.networking.SessionNotFound;
 import com.app4qcm.networking.UnrecognizedResponse;
 
 public class TestClient {
@@ -53,6 +56,27 @@ public class TestClient {
 						e.printStackTrace();
 					}
 					break;
+				case "start_session":
+					try {
+						server.startSession("Session1");
+					} catch (UnrecognizedResponse | SessionNotFound | SessionAlreadyStarted e) {
+						e.printStackTrace();
+					}
+					break;
+				case "join_session":
+					try {
+						server.joinSession("Session1", "Sebastien");
+					} catch (UnrecognizedResponse | SessionNotFound e) {
+						e.printStackTrace();
+					}
+					break;
+				case "get_question":
+					try {
+						server.getQuestion();
+					} catch (NotConnected | UnrecognizedResponse | NoQuestionAvailable e) {
+						e.printStackTrace();
+					}
+					break;
 				}
 			}
 			server.close();
@@ -66,21 +90,19 @@ public class TestClient {
 	}
 
 	private static Session create_session() throws IOException {
-		Session session = new Session();
-		System.out.print("Session name: ");
-		session.setName(new BufferedReader(new InputStreamReader(System.in)).readLine());
-		session.setQuestions(new ArrayList<>());
-		Question q1 = new Question();
-		q1.setTxt_quest("Quelle est la couleur du ciel ?");
-		q1.setRep1("Vert");
-		q1.setRep2("Bleu");
-		q1.setRep3("Rouge");
-		q1.setRep4("Jaune");
-		q1.setCorrect1(false);
-		q1.setCorrect2(true);
-		q1.setCorrect3(false);
-		q1.setCorrect4(false);
-		session.getQuestions().add(q1);
+		Session session = new Session("Session1");
+		session.add(new Question(
+				"Quelle est la couleur du ciel ?",
+				"Rouge", false,
+				"Jaune", false,
+				"Bleu", true,
+				"Gris si on est a Paris", true));
+		session.add(new Question(
+				"Kamou...",
+				"...lox", true,
+				"...rox", false,
+				"...ploc", false,
+				"Aucune des reponses", false));
 		return session;
 	}
 
