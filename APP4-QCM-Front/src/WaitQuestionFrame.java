@@ -14,7 +14,7 @@ import Utilities.MessageUtilities;
 
 public class WaitQuestionFrame extends JDialog {
 	private static final long serialVersionUID = -7324420178436852752L;
-	
+
 	Panel pnlWaitQuestion = new Panel();
 	Button btnActualize = new Button("Actualize");
 
@@ -46,8 +46,7 @@ public class WaitQuestionFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Question question;
 				try {
-					question = new Question();
-					QuestionController.get();
+					question = QuestionController.getEmpty();
 					if (question.getId_q() == previousQuestionId)
 						question = null;
 					else
