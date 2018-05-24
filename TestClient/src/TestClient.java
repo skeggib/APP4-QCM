@@ -92,6 +92,12 @@ public class TestClient {
 						e.printStackTrace();
 					}
 					break;
+				case "get_stats":
+					try {
+						server.getStats(1);
+					} catch (NotConnected | UnrecognizedResponse | InvalidQuestionNumber e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			server.close();
