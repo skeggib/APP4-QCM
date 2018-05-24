@@ -1,27 +1,22 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.UnknownHostException;
 
 import javax.swing.JDialog;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.networking.NoQuestionAvailable;
-import com.app4qcm.networking.NotConnected;
-import com.app4qcm.networking.Server;
-import com.app4qcm.networking.SessionNotFound;
-import com.app4qcm.networking.UnrecognizedResponse;
 
+import Controllers.QuestionController;
+import Controllers.SessionController;
 import Controls.Button;
 import Controls.Panel;
 import Utilities.MessageUtilities;
 
 public class WaitQuestionFrame extends JDialog {
-
+	private static final long serialVersionUID = -7324420178436852752L;
+	
 	Panel pnlWaitQuestion = new Panel();
 	Button btnActualize = new Button("Actualize");
-
-	Server server;
 
 	private WaitQuestionFrame(JDialog dialog) {
 		super(dialog, "Wait Question", true);
@@ -52,7 +47,7 @@ public class WaitQuestionFrame extends JDialog {
 				Question question;
 				try {
 					question = new Question();
-					server.getQuestion();
+					QuestionController.get();
 					if (question.getId_q() == previousQuestionId)
 						question = null;
 					else
@@ -77,21 +72,7 @@ public class WaitQuestionFrame extends JDialog {
 		WaitQuestionFrame waitQuestion = new WaitQuestionFrame(dialog);
 
 		try {
-			waitQuestion.server = new Server();
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
-
-		try {
-			waitQuestion.server.connect();
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
-
-		try {
-			waitQuestion.server.joinSession(sessionName, ConnexionFrame.ask(dialog));
+			SessionController.join(sessionName, ConnexionFrame.ask(dialog));
 		} catch (Exception ex) {
 			MessageUtilities.showError(ex);
 			return;
@@ -99,12 +80,5 @@ public class WaitQuestionFrame extends JDialog {
 
 		waitQuestion.setLocationRelativeTo(dialog);
 		waitQuestion.setVisible(true);
-
-		try {
-			waitQuestion.server.close();
-		} catch (Exception ex) {
-			MessageUtilities.showError(ex);
-			return;
-		}
 	}
 }

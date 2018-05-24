@@ -16,6 +16,7 @@ import Controls.TextField;
 
 // 
 public class QuestionFrame extends JDialog {
+	private static final long serialVersionUID = 5003809370524506931L;
 
 	Panel pnlQuestionFrame = new Panel();
 
