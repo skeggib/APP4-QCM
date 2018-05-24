@@ -37,13 +37,14 @@ public class QuestionFrame extends JDialog {
 
 	// editable = true
 	private QuestionFrame(JDialog dialog) {
-		super(dialog, "", true);
+		super(dialog, "Question", true);
 		this.initialize();
 	}
 
 	// editable as teacher
 	// non-editable as student
 	private QuestionFrame(JDialog dialog, Question question, boolean editable) {
+		super(dialog, "Question", true);
 		this.initialize();
 
 		txtQuestion.setEditable(editable);

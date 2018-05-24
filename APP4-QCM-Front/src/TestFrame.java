@@ -2,18 +2,24 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
 
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.networking.InvalidQuestionNumber;
+import com.app4qcm.networking.NotConnected;
+import com.app4qcm.networking.Server;
+import com.app4qcm.networking.UnrecognizedResponse;
 
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
 import Controls.ScrollPanel;
 import Controls.TextField;
+import Utilities.MessageUtilities;
 
 // calls QuestionFrame (as teacher)
 // edit all questions, add new, etc.
@@ -25,6 +31,8 @@ public class TestFrame extends JDialog {
 	ArrayList<Panel> questionPanels = new ArrayList<Panel>();
 
 	Session session;
+
+	Server server;
 
 	private TestFrame(JDialog dialog, Session session) {
 		super(dialog, "Session", true);
@@ -38,33 +46,45 @@ public class TestFrame extends JDialog {
 
 		update();
 	}
-	
+
 	void initializeStart(Button btnStart, int numQuestion) {
 		btnStart.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// send server "start sessionId numQuestion"
+				try {
+					server.sendQuestion(numQuestion);
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+				}
 			}
 		});
 	}
-	
+
 	void initializeStop(Button btnStop, int numQuestion) {
 		btnStop.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// send server "stop sessionId numQuestion"
+				try {
+					server.sendQuestion(-1);
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+				}
 			}
 		});
 	}
-	
+
 	void initializeStats(Button btnStats, int numQuestion) {
 		btnStats.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// send server "stats sessionId numQuestion"
+				try {
+					// TODO
+				} catch (Exception ex) {
+					MessageUtilities.showError(ex);
+				}
 			}
 		});
 	}
@@ -104,17 +124,17 @@ public class TestFrame extends JDialog {
 		txtQuestion.setBounds(6, 6, 400, 20);
 		txtQuestion.setLocation(6, 6);
 		panel.add(txtQuestion);
-		
+
 		Button btnStart = new Button("Start");
 		btnStart.setBounds(412, 6, 100, 20);
 		initializeStart(btnStart, question.getId_q());
 		panel.add(btnStart);
-		
+
 		Button btnStop = new Button("Stop");
 		btnStop.setBounds(412, 32, 100, 20);
 		initializeStart(btnStop, question.getId_q());
 		panel.add(btnStop);
-		
+
 		Button btnStats = new Button("Stats");
 		btnStats.setBounds(412, 58, 100, 20);
 		initializeStart(btnStats, question.getId_q());
@@ -134,7 +154,29 @@ public class TestFrame extends JDialog {
 
 	public static void show(JDialog dialog, Session session) {
 		TestFrame testFrame = new TestFrame(dialog, session);
+
+		try {
+			testFrame.server = new Server();
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+			return;
+		}
+
+		try {
+			testFrame.server.connect();
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+			return;
+		}
+
 		testFrame.setLocationRelativeTo(dialog);
 		testFrame.setVisible(true);
+
+		try {
+			testFrame.server.close();
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+			return;
+		}
 	}
 }

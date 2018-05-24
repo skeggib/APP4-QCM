@@ -25,6 +25,7 @@ public class ConnexionFrame extends JDialog {
 		super(dialog, "Connexion", true);
 
 		lblSession.setText("Enter your Session ID : ");
+		txtSession.setEditable(true);
 		initialize();
 	}
 
