@@ -1,5 +1,6 @@
 package com.app4qcm.logic;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map.Entry;
 import com.app4qcm.database.Context;
 import com.app4qcm.database.Question;
 import com.app4qcm.database.Session;
+import com.app4qcm.database.Statistics;
 import com.app4qcm.networking.ClientConnection;
 import com.app4qcm.serialization.XML_Tools;
 
@@ -128,6 +130,8 @@ public class Logic {
 				return get_session(client);
 			case "send_response":
 				return send_response(client, reste);
+			case "get_stats":
+				return get_stats(client, reste);
 		}
 		
 		return "fatal_error";
@@ -295,6 +299,44 @@ public class Logic {
 		running.responses.get(running.currentQuestionIndex).put(eleve, responses);
 		
 		return "ok";
+	}
+	
+	private String getEleveName(ClientConnection client, RunningSession runningSession) {
+		for (Entry<String, ClientConnection> entry : runningSession.eleves.entrySet()) {
+			if (entry.getValue() == client)
+				return entry.getKey();
+		}
+		return null;
+	}
+	
+	private String get_stats(ClientConnection prof, String param) {
+		RunningSession running = getRunningSessionByProf(prof);
+		if (running == null)
+			return "not_connected";
+		if (param == null)
+			return "invalid_question";
+		int numQuestion;
+		try  { 
+			numQuestion = Integer.parseInt(param.trim()); 
+		} 
+		catch (NumberFormatException nfe) { 
+			return "invalid_question";
+		}
+		if (numQuestion < 0 || numQuestion > running.session.getQuestions().size() - 1)
+			return "invalid_question";
+		
+		Statistics stats = new Statistics();
+		stats.question = running.session.getQuestions().get(numQuestion);
+		stats.question.setId_q(numQuestion);
+		stats.responses = new HashMap<>();
+		for (HashMap<ClientConnection, boolean[]> map : running.responses) {
+			for (Entry<ClientConnection, boolean[]> entry : map.entrySet()) {
+				String name = getEleveName(entry.getKey(), running);
+				stats.responses.put(name, entry.getValue());
+			}
+		}
+		
+		return "ok " + XML_Tools.encodeToString(stats).replace("\n", "").replace("\r", "");
 	}
 
 }
