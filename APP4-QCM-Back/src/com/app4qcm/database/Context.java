@@ -15,7 +15,13 @@ public class Context {
 	Connection _connection;
 	
 	public Context(String path) throws SQLException {
+		boolean generate = false;
+		if (!new File(path).exists())
+			generate = true;
+		
 		_connection = DriverManager.getConnection("jdbc:sqlite:" + path);
+		if (generate)
+			reset();
 	}
 	
 	public void close() throws SQLException {
