@@ -1,16 +1,24 @@
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
 
 import com.app4qcm.database.Question;
+import com.app4qcm.networking.InvalidParameter;
 import com.app4qcm.networking.NoQuestionAvailable;
+import com.app4qcm.networking.NotConnected;
+import com.app4qcm.networking.SessionNotFound;
 import com.app4qcm.networking.StudentNameAlreadyUsed;
+import com.app4qcm.networking.UnrecognizedResponse;
 
 import Controllers.QuestionController;
 import Controllers.SessionController;
 import Controllers.StatsController;
 import Controls.Button;
+import Controls.Label;
 import Controls.Panel;
 import Utilities.MessageUtilities;
 
@@ -18,10 +26,18 @@ public class WaitQuestionFrame extends JDialog {
 	private static final long serialVersionUID = -7324420178436852752L;
 
 	Panel pnlWaitQuestion = new Panel();
-	Button btnActualize = new Button("Actualize");
+	Label lblWaiting = new Label("Waiting");
 
-	private WaitQuestionFrame(JDialog dialog) {
+	Thread thread;
+	String sessionName;
+	String studentName;
+
+	private WaitQuestionFrame(JDialog dialog, String sessionName, String studentName) {
 		super(dialog, "Wait Question", true);
+
+		this.sessionName = sessionName;
+		this.studentName = studentName;
+
 		initialize();
 	}
 
@@ -29,60 +45,94 @@ public class WaitQuestionFrame extends JDialog {
 		setSize(320, 200);
 
 		pnlWaitQuestion.setLayout(null);
-
-		btnActualize.setBounds(6, 6, 150, 20);
-		pnlWaitQuestion.add(btnActualize);
-
 		setContentPane(pnlWaitQuestion);
 
-		initializeActualize();
+		lblWaiting.setBounds(0, 0, 300, 200);
+		lblWaiting.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlWaitQuestion.add(lblWaiting);
+
+		initializeThread();
 	}
 
 	int previousQuestionId = -1;
 
-	void initializeActualize() {
-		JDialog tmp = this;
-		btnActualize.addActionListener(new ActionListener() {
-
+	void initializeThread() {
+		WaitQuestionFrame tmp = this;
+		thread = new Thread() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Question question;
+			public void run() {
 				try {
-					question = QuestionController.getEmpty();
-					if (question.getId_q() == previousQuestionId)
-						question = null;
-					else
-						previousQuestionId = question.getId_q();
-				} catch (NoQuestionAvailable nqa) {
-					question = null;
-				} catch (Exception ex) {
-					MessageUtilities.showError(ex);
-					setVisible(false);
-					return;
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
 				}
-
-				if (question != null) {
-					QuestionFrame.show(tmp, question);
-				} else {
+				while (tmp.isVisible()) {
+					updateWaiter();
 					try {
-						StatsFrame.show(tmp, StatsController.get(previousQuestionId));
+						Question question;
+						question = QuestionController.getEmpty();
+						if (question.getId_q() != previousQuestionId) {
+							previousQuestionId = question.getId_q();
+							tmp.showQuestion(question);
+						}
+					} catch (NoQuestionAvailable nqa) {
+						hideQuestion();
+					} catch (NotConnected nc) {
+						stopSession();
+						return;
 					} catch (Exception ex) {
-						MessageUtilities.showError(ex);
+						showError(ex);
+						setVisible(false);
+					}
+
+					try {
+						sleep(500);
+					} catch (Exception ex) {
 					}
 				}
-
 			}
-		});
+		};
+		thread.start();
 	}
 
-	public static void show(JDialog dialog, String sessionName) {
-		WaitQuestionFrame waitQuestion = new WaitQuestionFrame(dialog);
+	void updateWaiter() {
+		if (lblWaiting.getText().endsWith("..."))
+			lblWaiting.setText(lblWaiting.getText().substring(0, lblWaiting.getText().length() - 3));
+		else
+			lblWaiting.setText(lblWaiting.getText() + ".");
+		revalidate();
+	}
+
+	void showQuestion(Question question) {
+		try {
+			QuestionController.answer(QuestionFrame.ask(this, question));
+		} catch (Exception ex) {
+			MessageUtilities.showError(ex);
+		}
+	}
+
+	void hideQuestion() {
+		try {
+			QuestionController.answer(QuestionFrame.forceClose());
+		} catch (Exception ex) {
+		}
+	}
+
+	void stopSession() {
+		setVisible(false);
+	}
+
+	void showError(Exception ex) {
+		MessageUtilities.showError(ex);
+	}
+
+	public static void show(JDialog dialog, String sessionName, String studentName) {
+		WaitQuestionFrame waitQuestion = new WaitQuestionFrame(dialog, sessionName, studentName);
 
 		boolean isConnected = false;
 
 		do {
 			try {
-				SessionController.join(sessionName, ConnexionFrame.ask(dialog));
+				SessionController.join(sessionName, studentName);
 				isConnected = true;
 			} catch (StudentNameAlreadyUsed snau) {
 				MessageUtilities.showError(snau);

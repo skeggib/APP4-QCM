@@ -79,14 +79,14 @@ public class SessionFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				boolean isCreated = false;
 				do {
-					session.setName(ConnexionFrame.ask(tmp));
+					session.setName(TextFrame.ask(tmp, "Session name"));
 
 					try {
 						SessionController.create(session);
 						isCreated = true;
 					} catch (InvalidSessionName | SessionNameAlreadyUsed se) {
 						MessageUtilities.showError(se);
-						session.setName(ConnexionFrame.ask(tmp));
+						session.setName(TextFrame.ask(tmp, "Session name"));
 					} catch (Exception ex) {
 						MessageUtilities.showError(ex);
 						return;

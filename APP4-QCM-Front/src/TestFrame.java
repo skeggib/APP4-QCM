@@ -11,6 +11,7 @@ import com.app4qcm.database.Session;
 
 import Controllers.QuestionController;
 import Controllers.SessionController;
+import Controllers.StatsController;
 import Controls.Button;
 import Controls.Label;
 import Controls.Panel;
@@ -72,12 +73,12 @@ public class TestFrame extends JDialog {
 	}
 
 	void initializeStats(Button btnStats, int numQuestion) {
+		TestFrame tmp = this;
 		btnStats.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					// TODO
+					StatsFrame.show(tmp, StatsController.get(numQuestion));
 				} catch (Exception ex) {
 					MessageUtilities.showError(ex);
 				}
@@ -134,7 +135,7 @@ public class TestFrame extends JDialog {
 
 		Button btnStats = new Button("Stats");
 		btnStats.setBounds(412, 58, 100, 20);
-		initializeStart(btnStats, index);
+		initializeStats(btnStats, index);
 		panel.add(btnStats);
 
 		int y = txtQuestion.getY() + txtQuestion.getHeight() + 6;

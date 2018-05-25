@@ -14,7 +14,7 @@ import Utilities.MessageUtilities;
 // calls ConnexionFrame, SessionCreationFrame and SessionFrame (as teacher), QuestionFrame (as student)
 public class MainMenuFrame extends JDialog {
 	private static final long serialVersionUID = -3566279614952751832L;
-	
+
 	Panel pnlMain = new Panel();
 	Button btnCreate = new Button("Create session");
 	Button btnStart = new Button("Start session");
@@ -60,7 +60,7 @@ public class MainMenuFrame extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					SessionController.start(ConnexionFrame.ask(tmp));
+					SessionController.start(TextFrame.ask(tmp, "Session Name"));
 				} catch (Exception ex) {
 					MessageUtilities.showError(ex);
 					return;
@@ -84,7 +84,7 @@ public class MainMenuFrame extends JDialog {
 		btnJoin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				WaitQuestionFrame.show(tmp, ConnexionFrame.ask(tmp));
+				WaitQuestionFrame.show(tmp, TextFrame.ask(tmp, "Session Name"), TextFrame.ask(tmp, "Student Name"));
 			}
 		});
 	}
