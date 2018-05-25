@@ -34,6 +34,8 @@ public class QuestionFrame extends JDialog {
 
 	Button btnValidate = new Button("Validate");
 
+	static QuestionFrame currentQuestionFrame;
+
 	int id_q;
 
 	// editable = true
@@ -221,8 +223,8 @@ public class QuestionFrame extends JDialog {
 		return questionFrame.result;
 	}
 
-	public static Question edit(JDialog dialog, Question question) {
-		QuestionFrame questionFrame = new QuestionFrame(dialog, question, true);
+	public static Question ask(JDialog dialog, Question question) {
+		QuestionFrame questionFrame = new QuestionFrame(dialog, question, false);
 		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
 		return questionFrame.result;
@@ -234,4 +236,8 @@ public class QuestionFrame extends JDialog {
 		questionFrame.setVisible(true);
 	}
 
+	public static Question forceClose() {
+		currentQuestionFrame.btnValidate.doClick();
+		return currentQuestionFrame.result;
+	}
 }
