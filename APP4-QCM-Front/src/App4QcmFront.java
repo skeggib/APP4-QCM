@@ -12,9 +12,9 @@ public class App4QcmFront {
 		MainMenuFrame mainMenu = new MainMenuFrame();
 		mainMenu.setLocationRelativeTo(null);
 		mainMenu.setVisible(true);
-		System.exit(0);
-
+		
 		AbstractController.closeServer();
+		System.exit(0);
 	}
 
 }
