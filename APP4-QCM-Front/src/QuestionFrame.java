@@ -70,6 +70,8 @@ public class QuestionFrame extends JDialog {
 	}
 
 	void initialize() {
+		currentQuestionFrame = this;
+
 		this.setSize(600, 480);
 
 		pnlQuestionFrame.setLayout(new GridBagLayout());
@@ -220,6 +222,7 @@ public class QuestionFrame extends JDialog {
 		QuestionFrame questionFrame = new QuestionFrame(dialog);
 		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
+		currentQuestionFrame = null;
 		return questionFrame.result;
 	}
 
@@ -227,6 +230,7 @@ public class QuestionFrame extends JDialog {
 		QuestionFrame questionFrame = new QuestionFrame(dialog, question, false);
 		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
+		currentQuestionFrame = null;
 		return questionFrame.result;
 	}
 
@@ -234,10 +238,14 @@ public class QuestionFrame extends JDialog {
 		QuestionFrame questionFrame = new QuestionFrame(dialog, question, false);
 		questionFrame.setLocationRelativeTo(dialog);
 		questionFrame.setVisible(true);
+		currentQuestionFrame = null;
 	}
 
 	public static Question forceClose() {
-		currentQuestionFrame.btnValidate.doClick();
-		return currentQuestionFrame.result;
+		if (currentQuestionFrame != null) {
+			currentQuestionFrame.btnValidate.doClick();
+			return currentQuestionFrame.result;
+		} else
+			return null;
 	}
 }
