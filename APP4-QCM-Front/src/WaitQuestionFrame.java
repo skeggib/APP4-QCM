@@ -61,8 +61,10 @@ public class WaitQuestionFrame extends JDialog {
 		thread = new Thread() {
 			@Override
 			public void run() {
-				while (!tmp.isVisible())
-					;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
 				while (tmp.isVisible()) {
 					updateWaiter();
 					try {
